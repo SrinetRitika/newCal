@@ -8,7 +8,8 @@ library(parallel)
 library(BayesianTools)
 library(ggpubr)
 
-vLocal <- FALSE
+####set project library if running on CSC
+vLocal <- FALSE #### flag for runs on CSC(FALSE) or on laptop(TRUE)
 if(!vLocal){
   setwd("/scratch/project_2000994/calibrations/all")
   .libPaths(c("/scratch/project_2000994/project_rpackages", .libPaths()))
@@ -61,31 +62,60 @@ initX[[2]] <- init_set2
 initX[[3]] <- init_set3
 modOut <- list()
 
-print("I'm here")
-startX <- Sys.time()
-ciao <- mclapply(runs, function(jx) {
-  modOut[[jx]] <- multiPrebas(initX[[jx]])  
-}, mc.cores = nCores)      
-endX <- Sys.time()
-timeParl = endX- startX
-# print(timeX)
-
-print("I'm here 2")
+###Run model using 1 initialization object
 startX <- Sys.time()
 modOutAll <- multiPrebas(initPrebas)  
 endX <- Sys.time()
 timeAll = endX- startX
-# print(timeX)
 
-print("I'm here 3")
-startX <- Sys.time()
+####Run model for splitted sites
 modOut1 <- multiPrebas(init_set1)  
 modOut2 <- multiPrebas(init_set2)  
 modOut3 <- multiPrebas(init_set3)  
-endX <- Sys.time()
-timeSerial = endX- startX
 
-print(paste("parallel", timeParl))
-print(paste("serial", timeSerial))
-print(paste("All", timeAll))
+####extract and compare data
+sim_H <- modOutAll$multiOut[outdata_H]
+sim_H_set1 <- modOut1$multiOut[Hdata_s1$outData]
+sim_H_set2 <- modOut2$multiOut[Hdata_s2$outData]
+sim_H_set3 <- modOut3$multiOut[Hdata_s3$outData]
 
+
+plot(sim_H,obs_H)
+points(sim_H_set1,Hdata_s1$obs,pch=20,col=2)
+points(sim_H_set2,Hdata_s2$obs,pch=20,col=3)
+points(sim_H_set3,Hdata_s3$obs,pch=20,col=4)
+
+plot(obs_H,c(Hdata_s1$obs,Hdata_s2$obs,Hdata_s3$obs))
+plot(sim_H,c(sim_H_set1,sim_H_set2,sim_H_set3))
+
+# 
+# 
+# ###Run in parallel only working on linux
+# print("I'm here")
+# startX <- Sys.time()
+# modOutParl <- mclapply(runs, function(jx) {
+#   modOut[[jx]] <- multiPrebas(initX[[jx]])  
+# }, mc.cores = nCores)      
+# endX <- Sys.time()
+# timeParl = endX- startX
+# # print(timeX)
+# 
+# print("I'm here 2")
+# startX <- Sys.time()
+# modOutAll <- multiPrebas(initPrebas)  
+# endX <- Sys.time()
+# timeAll = endX- startX
+# # print(timeX)
+# 
+# print("I'm here 3")
+# startX <- Sys.time()
+# modOut1 <- multiPrebas(init_set1)  
+# modOut2 <- multiPrebas(init_set2)  
+# modOut3 <- multiPrebas(init_set3)  
+# endX <- Sys.time()
+# timeSerial = endX- startX
+# 
+# print(paste("parallel", timeParl))
+# print(paste("serial", timeSerial))
+# print(paste("All", timeAll))
+# 
