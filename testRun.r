@@ -9,7 +9,7 @@ library(BayesianTools)
 library(ggpubr)
 
 ####set project library if running on CSC
-vLocal <- FALSE #### flag for runs on CSC(FALSE) or on laptop(TRUE)
+vLocal <- TRUE #### flag for runs on CSC(FALSE) or on laptop(TRUE)
 if(!vLocal){
   setwd("/scratch/project_2000994/calibrations/all")
   .libPaths(c("/scratch/project_2000994/project_rpackages", .libPaths()))
