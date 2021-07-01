@@ -28,12 +28,16 @@ subSetData <- function(outdata,setX,obs){
 subInit <- function(initPrebas,setX){
   nYears <- initPrebas$nYears[setX]
   siteInfo=initPrebas$siteInfo[setX,]
+  siteInfo[,1] <- siteInfo[,1] - (min(setX)-1)
   defaultThin=initPrebas$defaultThin[setX]
   ClCut = initPrebas$ClCut[setX]
   multiInitVar = initPrebas$multiInitVar[setX,,]
   yassoRun <- initPrebas$yassoRun[setX]
   multiThin = initPrebas$thinning[setX,,]
+  multiThin[,,2][which(multiThin[,,2]>0)] <- 
+    multiThin[,,2][which(multiThin[,,2]>0)] - (min(setX)-1)
   multiNthin = initPrebas$nThinning[setX]
+  multiThin <- multiThin[,1:max(multiNthin),]
   
   climIDx <- sort(unique(siteInfo[,2]))
   siteInfo[,2] <- match(siteInfo[,2],climIDx)
@@ -63,8 +67,8 @@ subInit <- function(initPrebas,setX){
                              CO2= CO2,
                              yassoRun = yassoRun,#lukeRuns = initPrebas$lukeRuns,
                              # initCLcutRatio = initCLcutRatio
-                             multiThin = multiThin,
-                             multiNthin = multiNthin
+                             multiThin = as.array(multiThin),
+                             multiNthin = as.vector(multiNthin)
   )
   return(init_setX)
 }

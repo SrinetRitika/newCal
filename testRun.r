@@ -74,20 +74,24 @@ modOut2 <- multiPrebas(init_set2)
 modOut3 <- multiPrebas(init_set3)  
 
 ####extract and compare data
-sim_H <- modOutAll$multiOut[outdata_H]
-sim_H_set1 <- modOut1$multiOut[Hdata_s1$outData]
-sim_H_set2 <- modOut2$multiOut[Hdata_s2$outData]
-sim_H_set3 <- modOut3$multiOut[Hdata_s3$outData]
+extraxtData <- function(modOutAll,modOut1,modOut2,modOut3,
+                        outdata,data_s1,data_s2,data_s3,obs_all){
+  sim_all <- modOutAll$multiOut[outdata]
+  sim_set1 <- modOut1$multiOut[data_s1$outData]
+  sim_set2 <- modOut2$multiOut[data_s2$outData]
+  sim_set3 <- modOut3$multiOut[data_s3$outData]
+  
+  plot(sim_all,obs_all)
+  points(sim_set1,data_s1$obs,pch=20,col=2)
+  points(sim_set2,data_s2$obs,pch=20,col=3)
+  points(sim_set3,data_s3$obs,pch=20,col=4)
+  
+  plot(obs_all,c(data_s1$obs,data_s2$obs,data_s3$obs))
+  plot(sim_all,c(sim_set1,sim_set2,sim_set3))
+}
 
-
-plot(sim_H,obs_H)
-points(sim_H_set1,Hdata_s1$obs,pch=20,col=2)
-points(sim_H_set2,Hdata_s2$obs,pch=20,col=3)
-points(sim_H_set3,Hdata_s3$obs,pch=20,col=4)
-
-plot(obs_H,c(Hdata_s1$obs,Hdata_s2$obs,Hdata_s3$obs))
-plot(sim_H,c(sim_H_set1,sim_H_set2,sim_H_set3))
-
+extraxtData(modOutAll,modOut1,modOut2,modOut3,
+            outdata_B,Bdata_s1,Bdata_s2,Bdata_s3,obs_B)
 # 
 # 
 # ###Run in parallel only working on linux
