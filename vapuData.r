@@ -1,8 +1,11 @@
+library(ggplot2)
+library(Rprebasso)
+
 ## vapu spruce.
 vapu_S<-read.csv("inputs/VAPU_spruce.csv")
 nData_S <- length(vapu_S$plotNo)
 pars <- pCROB[c(11,15,38),2] #z,rhof2,ksi
-pars<-c(1.927,408.92,0.08178)
+# pars<-c(1.927,408.92,0.08178)
 Wf <- matrix(0.,nData_S,2)
 inputs <- matrix(0.,nData_S,3,dimnames = list(NULL,c("BA","H","Hc")))
 inputs[,1] <- sample(vapu_S$BA,nData_S)
@@ -14,6 +17,31 @@ test <- .Fortran("calWf",pars=as.double(pars),
                  inputs=as.matrix(inputs),
                  nData=as.integer(nData_S),
                  As=as.matrix(As))
+
+Lc <- inputs[,2]-inputs[,3]
+Wf_Lc <- .Fortran("calWf_fLc",pars=as.double(pars[c(3,1)]),
+                 Wf=as.double(Wf),
+                 nData=as.integer(nData_S),
+                 Lc=as.double(Lc)
+                 )
+
+As <- vapu_S$Ac
+Wf_As <- .Fortran("calWf_fA",pars=as.double(pars[2]),
+                 Wf=as.double(Wf),
+                 nData=as.integer(nData_S),
+                 As=as.double(As)
+)
+
+# As <- vapu_S$Ac
+As_Lc <- .Fortran("calAs_fLc",pars=as.double(pars[c(3,1,2)]),
+                  As=as.double(As),
+                  nData=as.integer(nData_S),
+                  Lc=as.double(Lc)
+)
+
+calAs_fLc(pars,As,nData,Lc)
+
+
 data<-as.data.frame(cbind(test$As[,1],test$As[,2],vapu_S$Ac,test$Wf[,1],test$Wf[,2],vapu_S$Wf.1))
 colnames(data)<-c("As1","As2","As_m","Wf1","Wf2","Wf_m")
 p1<-ggplot(data=data,aes(x=As_m,y=As1))+geom_point()+geom_abline()+geom_point(data=data,aes(x=As_m,y=As2),col="red")

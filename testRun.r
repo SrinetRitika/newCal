@@ -91,7 +91,7 @@ extraxtData <- function(modOutAll,modOut1,modOut2,modOut3,
 }
 
 extraxtData(modOutAll,modOut1,modOut2,modOut3,
-            outdata_B,Bdata_s1,Bdata_s2,Bdata_s3,obs_B)
+            outdata_D,Ddata_s1,Ddata_s2,Ddata_s3,obs_D)
 # 
 # 
 # ###Run in parallel only working on linux
