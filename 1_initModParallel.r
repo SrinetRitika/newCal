@@ -73,14 +73,13 @@ subInit <- function(initPrebas,setX){
   return(init_setX)
 }
 
-
 set1 <- 1:300
 set2 <- 301:600
 set3 <- 601:922
-
+set4 <- 923:948
 
 # load("/scratch/project_2000994/calibrations/all/inputs/initPrebas.rdata")
-load("inputs/initPrebas.rdata")
+load("inputs/initPrebasAll.rdata")
 
 load("outCal/pMAP.rdata")
 
@@ -126,3 +125,12 @@ Hcdata_s3 <- subSetData(outdata_Hc,set3,obs_Hc)
 save(init_set3,Hdata_s3,Ddata_s3,Bdata_s3,Vdata_s3,Hcdata_s3,
      file="inputs/init_set3.rdata")
 
+init_set4 <- subInit(initPrebas, set4)
+Hdata_s4 <- subSetData(outdata_H,set4,obs_H)
+Ddata_s4 <- subSetData(outdata_D,set4,obs_D)
+Bdata_s4 <- subSetData(outdata_B,set4,obs_B)
+Vdata_s4 <- subSetData(outdata_V,set4,obs_V)
+Hcdata_s4 <- subSetData(outdata_Hc,set4,obs_Hc)
+
+save(init_set4,Hdata_s4,Ddata_s4,Bdata_s4,Vdata_s4,Hcdata_s4,
+     file="inputs/init_set4.rdata")
