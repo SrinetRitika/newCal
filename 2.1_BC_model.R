@@ -58,13 +58,6 @@ initPrebas$pCROBAS <- pCROB
 # initPrebas$pCROBAS[12,] <- initPrebas$pCROBAS[12,]-1
 
 # Heavy tailed noraml distribution
-Sivia_log<-function(diff,sd){
-  # sd[which(sd<=0)]<-11e-6e-6
-  diff[which(abs(diff)<=1e-6)]<-1e-6
-  R2<-(diff/sd)^2
-  prob<-1/(sd*(pi*2)^0.5)*(1-exp(-R2/2))/R2
-  log(prob)
-}
 
 likelihood <- function(pValues){
   nparCROB=24

@@ -19,24 +19,20 @@ library(Rprebasso)
 
 # setwd("C:/Users/minunno/Documents/research/calibrationNew/all")
 
+source("settings.r") ###run using url
+source("functions.r") ###run using url
 
 # load("inputs/initPrebas_old growth.rdata")
-load("inputs/initPrebas.rdata")
 load("inputs/init_set1.rdata")
 load("inputs/init_set2.rdata")
 load("inputs/init_set3.rdata")
+load("inputs/init_set4.rdata")
 
 load("outCal/pMAP.rdata")
 
 
-parSel <- c(1:18,31:34,38,41)
-nparCROB <- length(parSel)
 
-initPrebas$pCROBAS <- pCROB
-initPrebas$pCROBAS[parSel,1] <- pMAP[1:nparCROB]
-initPrebas$pCROBAS[parSel,2] <- pMAP[(nparCROB + 1):(nparCROB*2)]
-initPrebas$pCROBAS[parSel,3] <- pMAP[(nparCROB*2 + 1):(nparCROB*3)]
-
+###change parameters
 ###init_set1
 init_set1$pCROBAS <- pCROB
 init_set1$pCROBAS[parSel,1] <- pMAP[1:nparCROB]
@@ -52,74 +48,35 @@ init_set3$pCROBAS <- pCROB
 init_set3$pCROBAS[parSel,1] <- pMAP[1:nparCROB]
 init_set3$pCROBAS[parSel,2] <- pMAP[(nparCROB + 1):(nparCROB*2)]
 init_set3$pCROBAS[parSel,3] <- pMAP[(nparCROB*2 + 1):(nparCROB*3)]
+###init_set4
+init_set4$pCROBAS <- pCROB
+init_set4$pCROBAS[parSel,1] <- pMAP[1:nparCROB]
+init_set4$pCROBAS[parSel,2] <- pMAP[(nparCROB + 1):(nparCROB*2)]
+init_set4$pCROBAS[parSel,3] <- pMAP[(nparCROB*2 + 1):(nparCROB*3)]
+
+###runModel
+modOut1 <- multiPrebas(init_set1)
+modOut2 <- multiPrebas(init_set2)
+modOut3 <- multiPrebas(init_set3)
+modOut4 <- multiPrebas(init_set4)
+
+###calculate likelihoods
+likelihood1(pMAP)
+likelihood2(pMAP)
+likelihood3(pMAP)
+likelihood4(pMAP)
 
 
-nCores <- 3
-runs <- 1:3
-initX <- list()
-initX[[1]] <- init_set1
-initX[[2]] <- init_set2
-initX[[3]] <- init_set3
-modOut <- list()
-
-###Run model using 1 initialization object
-startX <- Sys.time()
-modOutAll <- multiPrebas(initPrebas)  
-endX <- Sys.time()
-timeAll = endX- startX
-
-####Run model for splitted sites
-modOut1 <- multiPrebas(init_set1)  
-modOut2 <- multiPrebas(init_set2)  
-modOut3 <- multiPrebas(init_set3)  
-
-####extract and compare data
-extraxtData <- function(modOutAll,modOut1,modOut2,modOut3,
-                        outdata,data_s1,data_s2,data_s3,obs_all){
-  sim_all <- modOutAll$multiOut[outdata]
-  sim_set1 <- modOut1$multiOut[data_s1$outData]
-  sim_set2 <- modOut2$multiOut[data_s2$outData]
-  sim_set3 <- modOut3$multiOut[data_s3$outData]
-  
-  plot(sim_all,obs_all)
-  points(sim_set1,data_s1$obs,pch=20,col=2)
-  points(sim_set2,data_s2$obs,pch=20,col=3)
-  points(sim_set3,data_s3$obs,pch=20,col=4)
-  
-  plot(obs_all,c(data_s1$obs,data_s2$obs,data_s3$obs))
-  plot(sim_all,c(sim_set1,sim_set2,sim_set3))
-}
-
-extraxtData(modOutAll,modOut1,modOut2,modOut3,
-            outdata_D,Ddata_s1,Ddata_s2,Ddata_s3,obs_D)
+# nCores <- 3
+# runs <- 1:3
+# initX <- list()
+# initX[[1]] <- init_set1
+# initX[[2]] <- init_set2
+# initX[[3]] <- init_set3
+# modOut <- list()
 # 
-# 
-# ###Run in parallel only working on linux
-# print("I'm here")
-# startX <- Sys.time()
-# modOutParl <- mclapply(runs, function(jx) {
-#   modOut[[jx]] <- multiPrebas(initX[[jx]])  
-# }, mc.cores = nCores)      
-# endX <- Sys.time()
-# timeParl = endX- startX
-# # print(timeX)
-# 
-# print("I'm here 2")
+# ###Run model using 1 initialization object
 # startX <- Sys.time()
 # modOutAll <- multiPrebas(initPrebas)  
 # endX <- Sys.time()
 # timeAll = endX- startX
-# # print(timeX)
-# 
-# print("I'm here 3")
-# startX <- Sys.time()
-# modOut1 <- multiPrebas(init_set1)  
-# modOut2 <- multiPrebas(init_set2)  
-# modOut3 <- multiPrebas(init_set3)  
-# endX <- Sys.time()
-# timeSerial = endX- startX
-# 
-# print(paste("parallel", timeParl))
-# print(paste("serial", timeSerial))
-# print(paste("All", timeAll))
-# 

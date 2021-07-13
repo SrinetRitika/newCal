@@ -1,28 +1,26 @@
 ##I have intergrated the old growth data into initprebas and made it data set4
 ##questions:how to set pvalues in the likelihood function? a serial of numbers for each parameter
 
-parSel <- c(1:18,31:34,38,41)
-nparCROB <- length(parSel)
 
-initPrebas$pCROBAS <- pCROB
-initPrebas$pCROBAS[parSel,1] <- pMAP[1:nparCROB]
-initPrebas$pCROBAS[parSel,2] <- pMAP[(nparCROB + 1):(nparCROB*2)]
-initPrebas$pCROBAS[parSel,3] <- pMAP[(nparCROB*2 + 1):(nparCROB*3)]
-###init_set2
-init_set2$pCROBAS <- pCROB
-init_set2$pCROBAS[parSel,1] <- pMAP[1:nparCROB]
-init_set2$pCROBAS[parSel,2] <- pMAP[(nparCROB + 1):(nparCROB*2)]
-init_set2$pCROBAS[parSel,3] <- pMAP[(nparCROB*2 + 1):(nparCROB*3)]
-###init_set3
-init_set3$pCROBAS <- pCROB
-init_set3$pCROBAS[parSel,1] <- pMAP[1:nparCROB]
-init_set3$pCROBAS[parSel,2] <- pMAP[(nparCROB + 1):(nparCROB*2)]
-init_set3$pCROBAS[parSel,3] <- pMAP[(nparCROB*2 + 1):(nparCROB*3)]
-###init_set4
-init_set4$pCROBAS <- pCROB
-init_set4$pCROBAS[parSel,1] <- pMAP[1:nparCROB]
-init_set4$pCROBAS[parSel,2] <- pMAP[(nparCROB + 1):(nparCROB*2)]
-init_set4$pCROBAS[parSel,3] <- pMAP[(nparCROB*2 + 1):(nparCROB*3)]
+# initPrebas$pCROBAS <- pCROB
+# initPrebas$pCROBAS[parSel,1] <- pMAP[1:nparCROB]
+# initPrebas$pCROBAS[parSel,2] <- pMAP[(nparCROB + 1):(nparCROB*2)]
+# initPrebas$pCROBAS[parSel,3] <- pMAP[(nparCROB*2 + 1):(nparCROB*3)]
+# ###init_set2
+# init_set2$pCROBAS <- pCROB
+# init_set2$pCROBAS[parSel,1] <- pMAP[1:nparCROB]
+# init_set2$pCROBAS[parSel,2] <- pMAP[(nparCROB + 1):(nparCROB*2)]
+# init_set2$pCROBAS[parSel,3] <- pMAP[(nparCROB*2 + 1):(nparCROB*3)]
+# ###init_set3
+# init_set3$pCROBAS <- pCROB
+# init_set3$pCROBAS[parSel,1] <- pMAP[1:nparCROB]
+# init_set3$pCROBAS[parSel,2] <- pMAP[(nparCROB + 1):(nparCROB*2)]
+# init_set3$pCROBAS[parSel,3] <- pMAP[(nparCROB*2 + 1):(nparCROB*3)]
+# ###init_set4
+# init_set4$pCROBAS <- pCROB
+# init_set4$pCROBAS[parSel,1] <- pMAP[1:nparCROB]
+# init_set4$pCROBAS[parSel,2] <- pMAP[(nparCROB + 1):(nparCROB*2)]
+# init_set4$pCROBAS[parSel,3] <- pMAP[(nparCROB*2 + 1):(nparCROB*3)]
 
 # function to subset Data
 subSetData <- function(outdata,setX,obs){
@@ -227,9 +225,9 @@ likelihood4 <- function(pValues){
   
   out_B <-  output[Bdata_s4$outData] + output[outdata_B2]
   out_V <-  output[Vdata_s4$outData] + output[outdata_V2]
-  diff_H <- output[Hdata_s4$outData]-Hdata_s4$obs
-  diff_Hc <- output[Hcdata_s4$outData]-Hcdata_s4$obs
-  diff_D <- output[Ddata_s4$outData]-Ddata_s4$obs
+  diff_H <- output[Hdata_s4$outData] - Hdata_s4$obs
+  diff_Hc <- output[Hcdata_s4$outData] - Hcdata_s4$obs
+  diff_D <- output[Ddata_s4$outData] - Ddata_s4$obs
   diff_B <- out_B-Bdata_s4$obs
   diff_V <- out_V-Vdata_s4$obs
   
@@ -288,5 +286,14 @@ likelihood4 <- function(pValues){
   loglikelihood <-  sum(ll_H,ll_D,ll_B,ll_Hc,ll_V,ll_wf1_p,ll_wf2_p,ll_As_p,ll_wf1_s,ll_wf2_s,ll_As_s)
   
   return(loglikelihood)
+}
+
+##Sivia likelihood
+Sivia_log<-function(diff,sd){
+  # sd[which(sd<=0)]<-11e-6e-6
+  diff[which(abs(diff)<=1e-6)]<-1e-6
+  R2<-(diff/sd)^2
+  prob<-1/(sd*(pi*2)^0.5)*(1-exp(-R2/2))/R2
+  log(prob)
 }
 
