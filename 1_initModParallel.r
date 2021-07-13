@@ -12,66 +12,7 @@ if(!vLocal){
 }
 devtools::install_github("ForModLabUHel/Rprebasso")
 library(Rprebasso)
-
-# function to subset Data
-subSetData <- function(outdata,setX,obs){
-  selX <- which(outdata[,1] %in% setX)
-  if(length(selX)>0){
-    obsSub <- obs[selX]
-    outdataSub <- outdata[selX,]
-    outdataSub[,1] <- outdataSub[,1] - (min(setX)-1)
-    return(list(obs=obsSub,outData= outdataSub))
-  }
-}
-
-####Function to Subset initPrebas 
-subInit <- function(initPrebas,setX){
-  nYears <- initPrebas$nYears[setX]
-  siteInfo=initPrebas$siteInfo[setX,]
-  siteInfo[,1] <- siteInfo[,1] - (min(setX)-1)
-  defaultThin=initPrebas$defaultThin[setX]
-  ClCut = initPrebas$ClCut[setX]
-  multiInitVar = initPrebas$multiInitVar[setX,,]
-  yassoRun <- initPrebas$yassoRun[setX]
-  multiThin = initPrebas$thinning[setX,,]
-  multiThin[,,2][which(multiThin[,,2]>0)] <- 
-    multiThin[,,2][which(multiThin[,,2]>0)] - (min(setX)-1)
-  multiNthin = initPrebas$nThinning[setX]
-  multiThin <- multiThin[,1:max(multiNthin),]
-  
-  climIDx <- sort(unique(siteInfo[,2]))
-  siteInfo[,2] <- match(siteInfo[,2],climIDx)
-  maxYears <- max(initPrebas$nYears[setX])
-  CO2 <- TAir <- VPD <- Precip <- PAR <- matrix(-999,length(climIDx),maxYears*365)
-  
-  for(i in 1:length(climIDx)){
-    ij <- climIDx[i]
-    PAR[i,] <- as.vector(t(initPrebas$weather[ij,1:maxYears,,1]))
-    TAir[i,] <- as.vector(t(initPrebas$weather[ij,1:maxYears,,2]))
-    Precip[i,] <- as.vector(t(initPrebas$weather[ij,1:maxYears,,4]))
-    VPD[i,] <- as.vector(t(initPrebas$weather[ij,1:maxYears,,3]))
-    CO2[i,] <- as.vector(t(initPrebas$weather[ij,1:maxYears,,5]))
-  }
-  
-  init_setX <- InitMultiSite(nYearsMS = nYears,
-                             siteInfo=siteInfo,
-                             # pCROBAS = pCROBAS,
-                             # litterSize = litterSize,#pAWEN = parsAWEN,
-                             defaultThin=defaultThin,
-                             ClCut = ClCut,
-                             multiInitVar = multiInitVar,
-                             PAR = PAR,
-                             TAir= TAir,
-                             VPD= VPD,
-                             Precip= Precip,
-                             CO2= CO2,
-                             yassoRun = yassoRun,#lukeRuns = initPrebas$lukeRuns,
-                             # initCLcutRatio = initCLcutRatio
-                             multiThin = as.array(multiThin),
-                             multiNthin = as.vector(multiNthin)
-  )
-  return(init_setX)
-}
+source("")
 
 set1 <- 1:300
 set2 <- 301:600
