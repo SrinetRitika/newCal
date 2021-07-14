@@ -11,7 +11,7 @@ library(ggpubr)
 ####set project library if running on CSC
 vLocal <- TRUE #### flag for runs on CSC(FALSE) or on laptop(TRUE)
 if(!vLocal){
-  setwd("/scratch/project_2000994/calibrations/all")
+  setwd("/scratch/project_2000994/calibrations/newCal")
   .libPaths(c("/scratch/project_2000994/project_rpackages", .libPaths()))
 }
 devtools::install_github("ForModLabUHel/Rprebasso")
@@ -76,21 +76,16 @@ likelihood4(pMAP)
  likelihoods[[4]] <- likelihood4
  modOut <- list()
 # 
-###Run model using 1 initialization object
-startX <- Sys.time()
-modOutAll <- multiPrebas(initPrebas)
-endX <- Sys.time()
-timeAll = endX- startX
 
-
-library("parallel")
+####run in parallel only works on linux
 startX <- Sys.time()
 logLike <- mclapply(sets, function(jx) {
   likelihoods[[jx]](pMAP)  ## Do nothing for 10 seconds
-})#, mc.cores = nCores)  
+}, mc.cores = nCores)  
 endX <- Sys.time()
 timeX = endX- startX
-
+print("parallel time")
+print(timeX)
 
 startX <- Sys.time()
 likelihood1(pMAP)
@@ -99,6 +94,8 @@ likelihood3(pMAP)
 likelihood4(pMAP)
 endX <- Sys.time()
 timeX = endX- startX
+print("sequential time")
+print(timeX)
 
 
 
