@@ -16,12 +16,16 @@ if(vLocal){
 }else{
   setwd("/scratch/project_2000994/calibrations/all")
 }
-  
+source("settings.r")  
+source("functions.r")
 ##load data
 #lastCal <- "chains/calOut_1.rdata"
 #newCal <-  "chains/calOut_2.4.rdata"
-load("input/initPrebas.rdata")
-
+# load("input/initPrebas.rdata")
+load("inputs/init_set1.rdata")
+load("inputs/init_set2.rdata")
+load("inputs/init_set3.rdata")
+load("inputs/init_set4.rdata")
 # if(vLocal){
 #   nworkers <- 4 # required cores
 #   iters <- 1.2e5
@@ -40,63 +44,6 @@ load("input/initPrebas.rdata")
 # fileNameSave <- "chains/resDE_n0.1.RData"
 
 # load("input/pValues.rdata")
-###process parameters
-param_all <- read.csv('input/parameters.csv')
-parSel <- c(1:18,31:34,38,41)
-parmod <- param_all[,2] 
-parmin <- param_all[,3] 
-parmax <- param_all[,4] 
-parnam <- as.character(param_all[,1])
-npar <- length(parmod)
-
-##load Start pValues matrix
-# load("input/startValue.rdata")
-nparCROB <- length(parSel)
-outdata_B2 <- outdata_B;outdata_B2[,5] <- 2
-outdata_V2 <- outdata_V;outdata_V2[,5] <- 2
-initPrebas$pCROBAS <- pCROB
-# initPrebas$pCROBAS[12,] <- initPrebas$pCROBAS[12,]-1
-
-# Heavy tailed noraml distribution
-
-likelihood <- function(pValues){
-  nparCROB=24
-  initPrebas$pCROBAS[parSel,1] <- pValues[1:nparCROB]
-  initPrebas$pCROBAS[parSel,2] <- pValues[(nparCROB + 1):(nparCROB*2)]
-  initPrebas$pCROBAS[parSel,3] <- pValues[(nparCROB*2+1):(nparCROB*3)]
-  
-  output <- multiPrebas(initPrebas)$multiOut
-  # if (output==-999){
-  #   loglikelihood= -Inf
-  # } else {
-
-  out_B <-  output[outdata_B] + output[outdata_B2]
-  out_V <-  output[outdata_V] + output[outdata_V2]
-  diff_H <- output[outdata_H]-obs_H
-  diff_Hc <- output[outdata_Hc]-obs_Hc
-  diff_D <- output[outdata_D]-obs_D
-  diff_B <- out_B-obs_B
-  diff_V <- out_V-obs_V
-  
-  ##Sivia likelihood
-  ll_H <- sum(Sivia_log(diff_H,sd = pValues[(nparCROB+1)]+pValues[(nparCROB+2)]*output[outdata_H]))
-  ll_D <- sum(Sivia_log(diff_D,sd = pValues[(nparCROB+3)]+pValues[(nparCROB+4)]*output[outdata_D]))
-  ll_B <- sum(Sivia_log(diff_B,sd = pValues[(nparCROB+5)]+pValues[(nparCROB+6)]*output[outdata_B]))
-  ll_Hc <- sum(Sivia_log(diff_Hc,sd = pValues[(nparCROB+7)]+pValues[(nparCROB+8)]*output[outdata_Hc]))
-  ll_V <- sum(Sivia_log(diff_V,sd = pValues[(nparCROB+9)]+pValues[(nparCROB+10)]*output[outdata_V]))
-  
-  ###Normal distribution
-  # ll_H <- sum(dnorm(diff_H,sd = pValues[73]+pValues[74]*output[outdata_H],log=T))
-  # ll_D <- sum(dnorm(diff_D,sd = pValues[75]+pValues[76]*output[outdata_D],log=T))
-  # ll_B <- sum(dnorm(diff_B,sd = pValues[77]+pValues[78]*output[outdata_B],log=T))
-  # ll_Hc <- sum(dnorm(diff_Hc,sd = pValues[79]+pValues[80]*output[outdata_Hc],log=T))
-  # ll_V <- sum(dnorm(diff_V,sd = pValues[81]+pValues[82]*output[outdata_V],log=T))
-
-  loglikelihood <-  sum(ll_H,ll_D,ll_B,ll_Hc,ll_V)
-  # }
-
-  return(loglikelihood)
-}
 
 
 ### First calibration

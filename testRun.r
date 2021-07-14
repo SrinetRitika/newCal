@@ -67,16 +67,39 @@ likelihood3(pMAP)
 likelihood4(pMAP)
 
 
-# nCores <- 3
-# runs <- 1:3
-# initX <- list()
-# initX[[1]] <- init_set1
-# initX[[2]] <- init_set2
-# initX[[3]] <- init_set3
-# modOut <- list()
+ nCores <- 4
+ sets <- 1:4
+ likelihoods <- list()
+ likelihoods[[1]] <- likelihood1
+ likelihoods[[2]] <- likelihood2
+ likelihoods[[3]] <- likelihood3
+ likelihoods[[4]] <- likelihood4
+ modOut <- list()
 # 
-# ###Run model using 1 initialization object
-# startX <- Sys.time()
-# modOutAll <- multiPrebas(initPrebas)  
-# endX <- Sys.time()
-# timeAll = endX- startX
+###Run model using 1 initialization object
+startX <- Sys.time()
+modOutAll <- multiPrebas(initPrebas)
+endX <- Sys.time()
+timeAll = endX- startX
+
+
+library("parallel")
+startX <- Sys.time()
+logLike <- mclapply(sets, function(jx) {
+  likelihoods[[jx]](pMAP)  ## Do nothing for 10 seconds
+})#, mc.cores = nCores)  
+endX <- Sys.time()
+timeX = endX- startX
+
+
+startX <- Sys.time()
+likelihood1(pMAP)
+likelihood2(pMAP)
+likelihood3(pMAP)
+likelihood4(pMAP)
+endX <- Sys.time()
+timeX = endX- startX
+
+
+
+
