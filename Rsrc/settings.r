@@ -35,8 +35,7 @@ a_Acind <- which(parnam=="a_Ac")
 b_Acind <- which(parnam=="b_Ac")
 
 
-if(vLocal) nCores <- 1
-if(!vLocal) nCores <- 4
+nCores <- ifelse(vLocal,1,4)
 
 sets <- 1:4
 likelihoods <- list()
