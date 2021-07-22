@@ -291,9 +291,19 @@ likelihood4 <- function(pValues){
 ##Sivia likelihood
 Sivia_log<-function(diff,sd){
   # sd[which(sd<=0)]<-11e-6e-6
-  diff[which(abs(diff)<=1e-6)]<-1e-6
+  # diff[which(abs(diff)<=1e-6)]<-1e-6
+  diff[which(abs(diff)<=1e-6)]<-1e-4
   R2<-(diff/sd)^2
   prob<-1/(sd*(pi*2)^0.5)*(1-exp(-R2/2))/R2
   log(prob)
+}
+
+
+likelihood <- function(pValues){
+  logLike <- mclapply(sets, function(jx) {
+    likelihoods[[jx]](pValues)  
+  }, mc.cores = nCores)  
+  llP <- sum(unlist(logLike ))
+  return(llP)
 }
 

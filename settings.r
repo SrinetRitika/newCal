@@ -33,3 +33,14 @@ a_Wf2ind <- which(parnam=="a_Wf2")
 b_Wf2ind <- which(parnam=="b_Wf2")
 a_Acind <- which(parnam=="a_Ac")
 b_Acind <- which(parnam=="b_Ac")
+
+
+if(vLocal) nCores <- 1
+if(!vLocal) nCores <- 4
+
+sets <- 1:4
+likelihoods <- list()
+likelihoods[[1]] <- likelihood1
+likelihoods[[2]] <- likelihood2
+likelihoods[[3]] <- likelihood3
+likelihoods[[4]] <- likelihood4

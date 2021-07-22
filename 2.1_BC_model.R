@@ -12,12 +12,14 @@ devtools::install_github("ForModLabUHel/Rprebasso", ref="master")
 library(Rprebasso)
 
 if(vLocal){
-  setwd("C:/Users/minunno/Documents/research/calibrationNew/all")
+  setwd("C:/Users/checcomi/Documents/github/newCal/")
 }else{
-  setwd("/scratch/project_2000994/calibrations/all")
+  setwd("/scratch/project_2000994/calibrations/newCal/")
 }
-source("settings.r")  
+
 source("functions.r")
+source("settings.r")  
+iters=100
 ##load data
 #lastCal <- "chains/calOut_1.rdata"
 #newCal <-  "chains/calOut_2.4.rdata"
@@ -47,24 +49,24 @@ load("inputs/init_set4.rdata")
 
 
 ### First calibration
-load(lastCal)
-startValue <- calOut$X
-Z <- calOut$Z
-# startValue <- matrix(NA,3,npar)
-# startValue[1,] <- runif(npar,parmin,parmax)
-# startValue[2,] <- runif(npar,parmin,parmax)
-# startValue[3,] <- runif(npar,parmin,parmax)
-# startValue[1,1:72] <- c(pCROB[parSel,1],pCROB[parSel,2],pCROB[parSel,3])
+# load(lastCal)
+# startValue <- calOut$X
+# Z <- calOut$Z
+startValue <- matrix(NA,3,npar)
+startValue[1,] <- runif(npar,parmin,parmax)
+startValue[2,] <- runif(npar,parmin,parmax)
+startValue[3,] <- runif(npar,parmin,parmax)
+startValue[1,1:(length(parSel)*3)] <- c(pCROB[parSel,1],pCROB[parSel,2],pCROB[parSel,3])
 
 settings = list(iterations = iters, startValue = startValue,
-                Z=Z,#burnin=0,message=FALSE)
+                #Z=Z,#burnin=0,message=FALSE)
                 message=FALSE)
 
 # ### Create Bayesian Setup
 if(vLocal){
   bayesianSetup <- createBayesianSetup(likelihood = likelihood,
                                        lower = parmin, upper = parmax,names = parnam
-                                       ,parallel = nworkers)
+                                       ,parallel = 4)
 }else{
   bayesianSetup <- createBayesianSetup(likelihood = likelihood,
                                        lower = parmin, upper = parmax,
