@@ -12,8 +12,8 @@ if(!vLocal){
 }
 devtools::install_github("ForModLabUHel/Rprebasso")
 library(Rprebasso)
-source("settings.r") ###run using url
-source("functions.r") ###run using url
+devtools::source_url("https://raw.githubusercontent.com/ForModLabUHel/newCal/master/Rsrc/functions.r")
+devtools::source_url("https://raw.githubusercontent.com/ForModLabUHel/newCal/master/Rsrc/settings.r")
 
 
 # load("/scratch/project_2000994/calibrations/all/inputs/initPrebas.rdata")

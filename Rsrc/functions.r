@@ -257,10 +257,12 @@ likelihood4 <- function(pValues){
   diff_wf2_p <- Wf2_p-wf_p_obs
   diff_As_p <- As_p-As_p_obs
 
-  ll_wf1_p <- sum(Sivia_log(diff_wf1_p,sd = abs(diff_wf1_p*0.3)))
-  ll_wf2_p <- sum(Sivia_log(diff_wf2_p,sd = abs(diff_wf2_p*0.3)))
-  ll_As_p <- sum(Sivia_log(diff_As_p,sd = abs(diff_As_p*0.3)))
-
+  Wfsd1 = pValues[a_WfDataind]+pValues[b_WfDataind]*wf_p_obs +pValues[a_Wf1ind]+pValues[b_Wf1ind]*wf_p_obs
+  Wfsd2 = pValues[a_WfDataind]+pValues[b_WfDataind]*wf_p_obs +pValues[a_Wf2ind]+pValues[b_Wf2ind]*wf_p_obs
+  ll_wf1_p <- sum(Sivia_log(diff_wf1_p,sd = Wfsd1))
+  ll_wf2_p <- sum(Sivia_log(diff_wf2_p,sd = Wfsd2))
+  ll_As_p <- sum(Sivia_log(diff_As_p,sd = pValues[a_Acind]+pValues[b_Acind]*As_p_obs))
+  
   ksi_s <- init_set4$pCROBAS[38,2]
   rhof_s <- init_set4$pCROBAS[15,2]
   z_s <- init_set4$pCROBAS[11,2]
@@ -271,11 +273,13 @@ likelihood4 <- function(pValues){
   diff_wf1_s <- Wf1_s-wf_s_obs
   diff_wf2_s <- Wf2_s-wf_s_obs
   diff_As_s <- As_s-As_s_obs
-
-  ll_wf1_s <- sum(Sivia_log(diff_wf1_s,sd = abs(diff_wf1_s*0.3)))
-  ll_wf2_s <- sum(Sivia_log(diff_wf2_s,sd = abs(diff_wf2_s*0.3)))
-  ll_As_s <- sum(Sivia_log(diff_As_s,sd = abs(diff_As_s*0.3)))
-
+      
+  Wfsd1 = pValues[a_WfDataind]+pValues[b_WfDataind]*wf_s_obs +pValues[a_Wf1ind]+pValues[b_Wf1ind]*wf_s_obs
+  Wfsd2 = pValues[a_WfDataind]+pValues[b_WfDataind]*wf_s_obs +pValues[a_Wf2ind]+pValues[b_Wf2ind]*wf_s_obs
+  ll_wf1_s <- sum(Sivia_log(diff_wf1_s,sd = Wfsd1))
+  ll_wf2_s <- sum(Sivia_log(diff_wf2_s,sd = Wfsd2))
+  ll_As_s <- sum(Sivia_log(diff_As_s,sd = pValues[a_Acind]+pValues[b_Acind]*As_s_obs))
+             
   ###Normal distribution
   # ll_H <- sum(dnorm(diff_H,sd = pValues[73]+pValues[74]*output[outdata_H],log=T))
   # ll_D <- sum(dnorm(diff_D,sd = pValues[75]+pValues[76]*output[outdata_D],log=T))

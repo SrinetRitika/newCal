@@ -26,6 +26,13 @@ load(url('https://raw.githubusercontent.com/ForModLabUHel/newCal/master/inputs/i
 load(url('https://raw.githubusercontent.com/ForModLabUHel/newCal/master/inputs/init_set3.rdata'))
 load(url('https://raw.githubusercontent.com/ForModLabUHel/newCal/master/inputs/init_set4.rdata'))
 
+vapu_S<-read.csv(url('https://raw.githubusercontent.com/ForModLabUHel/newCal/master/inputs/VAPU_spruce.csv'))
+nData_S <- length(vapu_S$plotNo)
+vapu_P<-read.csv(url('https://raw.githubusercontent.com/ForModLabUHel/newCal/master/inputs/VAPU_pine.csv'))
+nData_P <- length(vapu_P$plot)
+
+
+
 # ### Create Bayesian Setup
 if(vLocal){
   bayesianSetup <- createBayesianSetup(likelihood = likelihood,
