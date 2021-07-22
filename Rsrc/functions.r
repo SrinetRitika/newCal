@@ -3,24 +3,24 @@
 
 
 # initPrebas$pCROBAS <- pCROB
-# initPrebas$pCROBAS[parSel,1] <- pMAP[1:nparCROB]
-# initPrebas$pCROBAS[parSel,2] <- pMAP[(nparCROB + 1):(nparCROB*2)]
-# initPrebas$pCROBAS[parSel,3] <- pMAP[(nparCROB*2 + 1):(nparCROB*3)]
+# initPrebas$pCROBAS[parSel,1] <- pValues[1:nparCROB]
+# initPrebas$pCROBAS[parSel,2] <- pValues[(nparCROB + 1):(nparCROB*2)]
+# initPrebas$pCROBAS[parSel,3] <- pValues[(nparCROB*2 + 1):(nparCROB*3)]
 # ###init_set2
 # init_set2$pCROBAS <- pCROB
-# init_set2$pCROBAS[parSel,1] <- pMAP[1:nparCROB]
-# init_set2$pCROBAS[parSel,2] <- pMAP[(nparCROB + 1):(nparCROB*2)]
-# init_set2$pCROBAS[parSel,3] <- pMAP[(nparCROB*2 + 1):(nparCROB*3)]
+# init_set2$pCROBAS[parSel,1] <- pValues[1:nparCROB]
+# init_set2$pCROBAS[parSel,2] <- pValues[(nparCROB + 1):(nparCROB*2)]
+# init_set2$pCROBAS[parSel,3] <- pValues[(nparCROB*2 + 1):(nparCROB*3)]
 # ###init_set3
 # init_set3$pCROBAS <- pCROB
-# init_set3$pCROBAS[parSel,1] <- pMAP[1:nparCROB]
-# init_set3$pCROBAS[parSel,2] <- pMAP[(nparCROB + 1):(nparCROB*2)]
-# init_set3$pCROBAS[parSel,3] <- pMAP[(nparCROB*2 + 1):(nparCROB*3)]
+# init_set3$pCROBAS[parSel,1] <- pValues[1:nparCROB]
+# init_set3$pCROBAS[parSel,2] <- pValues[(nparCROB + 1):(nparCROB*2)]
+# init_set3$pCROBAS[parSel,3] <- pValues[(nparCROB*2 + 1):(nparCROB*3)]
 # ###init_set4
 # init_set4$pCROBAS <- pCROB
-# init_set4$pCROBAS[parSel,1] <- pMAP[1:nparCROB]
-# init_set4$pCROBAS[parSel,2] <- pMAP[(nparCROB + 1):(nparCROB*2)]
-# init_set4$pCROBAS[parSel,3] <- pMAP[(nparCROB*2 + 1):(nparCROB*3)]
+# init_set4$pCROBAS[parSel,1] <- pValues[1:nparCROB]
+# init_set4$pCROBAS[parSel,2] <- pValues[(nparCROB + 1):(nparCROB*2)]
+# init_set4$pCROBAS[parSel,3] <- pValues[(nparCROB*2 + 1):(nparCROB*3)]
 
 # function to subset Data
 subSetData <- function(outdata,setX,obs){
@@ -85,9 +85,9 @@ subInit <- function(initPrebas,setX){
 likelihood1 <- function(pValues){
   ###init_set1
   init_set1$pCROBAS <- pCROB
-  init_set1$pCROBAS[parSel,1] <- pMAP[1:nparCROB]
-  init_set1$pCROBAS[parSel,2] <- pMAP[(nparCROB + 1):(nparCROB*2)]
-  init_set1$pCROBAS[parSel,3] <- pMAP[(nparCROB*2 + 1):(nparCROB*3)]
+  init_set1$pCROBAS[parSel,1] <- pValues[1:nparCROB]
+  init_set1$pCROBAS[parSel,2] <- pValues[(nparCROB + 1):(nparCROB*2)]
+  init_set1$pCROBAS[parSel,3] <- pValues[(nparCROB*2 + 1):(nparCROB*3)]
   
   output <- multiPrebas(init_set1)$multiOut
   # if (output==-999){
@@ -128,9 +128,9 @@ likelihood1 <- function(pValues){
 likelihood2 <- function(pValues){
   ###init_set2
   init_set2$pCROBAS <- pCROB
-  init_set2$pCROBAS[parSel,1] <- pMAP[1:nparCROB]
-  init_set2$pCROBAS[parSel,2] <- pMAP[(nparCROB + 1):(nparCROB*2)]
-  init_set2$pCROBAS[parSel,3] <- pMAP[(nparCROB*2 + 1):(nparCROB*3)]
+  init_set2$pCROBAS[parSel,1] <- pValues[1:nparCROB]
+  init_set2$pCROBAS[parSel,2] <- pValues[(nparCROB + 1):(nparCROB*2)]
+  init_set2$pCROBAS[parSel,3] <- pValues[(nparCROB*2 + 1):(nparCROB*3)]
   
   output <- multiPrebas(init_set2)$multiOut
   # if (output==-999){
@@ -171,9 +171,9 @@ likelihood2 <- function(pValues){
 likelihood3 <- function(pValues){
   ###init_set3
   init_set3$pCROBAS <- pCROB
-  init_set3$pCROBAS[parSel,1] <- pMAP[1:nparCROB]
-  init_set3$pCROBAS[parSel,2] <- pMAP[(nparCROB + 1):(nparCROB*2)]
-  init_set3$pCROBAS[parSel,3] <- pMAP[(nparCROB*2 + 1):(nparCROB*3)]
+  init_set3$pCROBAS[parSel,1] <- pValues[1:nparCROB]
+  init_set3$pCROBAS[parSel,2] <- pValues[(nparCROB + 1):(nparCROB*2)]
+  init_set3$pCROBAS[parSel,3] <- pValues[(nparCROB*2 + 1):(nparCROB*3)]
   
   output <- multiPrebas(init_set3)$multiOut
   # if (output==-999){
@@ -214,9 +214,9 @@ likelihood3 <- function(pValues){
 likelihood4 <- function(pValues){
   ###init_set4
   init_set4$pCROBAS <- pCROB
-  init_set4$pCROBAS[parSel,1] <- pMAP[1:nparCROB]
-  init_set4$pCROBAS[parSel,2] <- pMAP[(nparCROB + 1):(nparCROB*2)]
-  init_set4$pCROBAS[parSel,3] <- pMAP[(nparCROB*2 + 1):(nparCROB*3)]
+  init_set4$pCROBAS[parSel,1] <- pValues[1:nparCROB]
+  init_set4$pCROBAS[parSel,2] <- pValues[(nparCROB + 1):(nparCROB*2)]
+  init_set4$pCROBAS[parSel,3] <- pValues[(nparCROB*2 + 1):(nparCROB*3)]
   
   output <- multiPrebas(init_set4)$multiOut
   

@@ -17,9 +17,9 @@ if(vLocal){
   setwd("/scratch/project_2000994/calibrations/newCal/")
 }
 
-source("functions.r")
-source("settings.r")  
-iters=100
+devtools::source_url("https://raw.githubusercontent.com/ForModLabUHel/newCal/master/Rsrc/functions.r")
+devtools::source_url("https://raw.githubusercontent.com/ForModLabUHel/newCal/master/Rsrc/settings.r")
+
 ##load data
 #lastCal <- "chains/calOut_1.rdata"
 #newCal <-  "chains/calOut_2.4.rdata"
