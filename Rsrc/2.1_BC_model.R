@@ -21,10 +21,10 @@ devtools::source_url("https://raw.githubusercontent.com/ForModLabUHel/newCal/mas
 devtools::source_url("https://raw.githubusercontent.com/ForModLabUHel/newCal/master/Rsrc/settings.r")
 
 ###load data for initialization
-load("inputs/init_set1.rdata")
-load("inputs/init_set2.rdata")
-load("inputs/init_set3.rdata")
-load("inputs/init_set4.rdata")
+load(url('https://raw.githubusercontent.com/ForModLabUHel/newCal/master/inputs/init_set1.rdata'))
+load(url('https://raw.githubusercontent.com/ForModLabUHel/newCal/master/inputs/init_set2.rdata'))
+load(url('https://raw.githubusercontent.com/ForModLabUHel/newCal/master/inputs/init_set3.rdata'))
+load(url('https://raw.githubusercontent.com/ForModLabUHel/newCal/master/inputs/init_set4.rdata'))
 
 # ### Create Bayesian Setup
 if(vLocal){
@@ -36,7 +36,6 @@ if(vLocal){
                                        lower = parmin, upper = parmax,
                                        names = parnam)
 }
-
 
 ### First calibration
 if(calSet == 0){

@@ -10,7 +10,7 @@ set4 <- 923:948
 ###process parameters
 parSel <- c(1:18,31:34,38,41)
 nparCROB <- length(parSel)
-param_all <- read.csv('inputs/parameters.csv')
+param_all <- read.csv(url('https://raw.githubusercontent.com/ForModLabUHel/newCal/master/inputs/parameters.csv'))
 parmod <- param_all[,2] 
 parmin <- param_all[,3] 
 parmax <- param_all[,4] 
