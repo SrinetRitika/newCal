@@ -33,7 +33,8 @@ a_Wf2ind <- which(parnam=="a_Wf2")
 b_Wf2ind <- which(parnam=="b_Wf2")
 a_Acind <- which(parnam=="a_Ac")
 b_Acind <- which(parnam=="b_Ac")
-
+a_WfDataind <- which(parnam=="a_WfData")
+b_WfDataind <- which(parnam=="b_WfData")
 
 nCores <- ifelse(vLocal,1,4)
 
