@@ -274,8 +274,8 @@ likelihood4 <- function(pValues){
   diff_wf2_s <- Wf2_s-wf_s_obs
   diff_As_s <- As_s-As_s_obs
       
-  Wfsd1 = pValues[a_WfDataind]+pValues[b_WfDataind]*wf_s_obs +pValues[a_Wf1ind]+pValues[b_Wf1ind]*wf_s_obs
-  Wfsd2 = pValues[a_WfDataind]+pValues[b_WfDataind]*wf_s_obs +pValues[a_Wf2ind]+pValues[b_Wf2ind]*wf_s_obs
+  Wfsd1 = pValues[a_WfDataind]+pValues[b_WfDataind]*wf_s_obs + pValues[a_Wf1ind]+pValues[b_Wf1ind]*Wf1_s
+  Wfsd2 = pValues[a_WfDataind]+pValues[b_WfDataind]*wf_s_obs + pValues[a_Wf2ind]+pValues[b_Wf2ind]*Wf2_s
   ll_wf1_s <- sum(Sivia_log(diff_wf1_s,sd = Wfsd1))
   ll_wf2_s <- sum(Sivia_log(diff_wf2_s,sd = Wfsd2))
   ll_As_s <- sum(Sivia_log(diff_As_s,sd = pValues[a_Acind]+pValues[b_Acind]*As_s_obs))
@@ -295,8 +295,8 @@ likelihood4 <- function(pValues){
 ##Sivia likelihood
 Sivia_log<-function(diff,sd){
   # sd[which(sd<=0)]<-11e-6e-6
-  # diff[which(abs(diff)<=1e-6)]<-1e-6
-  diff[which(abs(diff)<=1e-6)]<-1e-4
+  diff[which(abs(diff)<=1e-6)]<-1e-6
+  # diff[which(abs(diff)<=1e-6)]<-1e-4
   R2<-(diff/sd)^2
   prob<-1/(sd*(pi*2)^0.5)*(1-exp(-R2/2))/R2
   log(prob)

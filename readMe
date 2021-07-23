@@ -1,0 +1,8 @@
+Instructions to run the calibration:
+1. in noMachine open the terminal and navigate to the folder where the batch files are:
+  cd /scratch/project_2000994/calibrations/newCal/sbatchFiles
+2. modify the calibration settings in genSet.r
+3. run the sbatch files from 1 to 20:
+  sbatch bcP1.sh
+      ...
+  sbatch bcP20.sh
