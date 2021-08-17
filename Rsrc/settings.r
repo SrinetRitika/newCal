@@ -1,5 +1,5 @@
 ####settings
-if(!exists(vLocal)) vLocal <- FALSE
+if(!exists("vLocal")) vLocal <- FALSE
 
 ###split data for parallelization
 set1 <- 1:300
