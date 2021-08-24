@@ -3,60 +3,24 @@ library("BayesianTools")
 library(runjags)
 library(coda)
 
-setwd("/scratch/project_2000994/calibrations/all")
+setwd("/scratch/project_2000994/calibrations/newCal")
 
-load("chains/calOut_2.1.rdata")
+load("chains/calOut_0.1.rdata")
 
 ###settings
 thin=1000
 lChain <- dim(calOut$chain[[1]])[1]
 seqX <- seq(thin,lChain,by=thin)
 
-
 pChain <- mcmc.list()
 pMAP <- NULL
 for(i in 1:20){
-  load(paste0("chains/calOut_1.",i,".rdata"))
-  chain1 <- calOut$chain[[1]][seqX,]
-  chain2 <- calOut$chain[[2]][seqX,]
-  chain3 <- calOut$chain[[3]][seqX,]
-  load(paste0("chains/calOut_2.",i,".rdata"))
-  chain1 <- rbind(chain1,calOut$chain[[1]][seqX,])
-  chain2 <- rbind(chain2,calOut$chain[[2]][seqX,])
-  chain3 <- rbind(chain3,calOut$chain[[3]][seqX,])
-  load(paste0("chains/calOut_3.",i,".rdata"))
-  chain1 <- rbind(chain1,calOut$chain[[1]][seqX,])
-  chain2 <- rbind(chain2,calOut$chain[[2]][seqX,])
-  chain3 <- rbind(chain3,calOut$chain[[3]][seqX,])
-  load(paste0("chains/calOut_4.",i,".rdata"))
-  chain1 <- rbind(chain1,calOut$chain[[1]][seqX,])
-  chain2 <- rbind(chain2,calOut$chain[[2]][seqX,])
-  chain3 <- rbind(chain3,calOut$chain[[3]][seqX,])
-  load(paste0("chains/calOut_5.",i,".rdata"))
-  chain1 <- rbind(chain1,calOut$chain[[1]][seqX,])
-  chain2 <- rbind(chain2,calOut$chain[[2]][seqX,])
-  chain3 <- rbind(chain3,calOut$chain[[3]][seqX,])
-  load(paste0("chains/calOut_6.",i,".rdata"))
-  chain1 <- rbind(chain1,calOut$chain[[1]][seqX,])
-  chain2 <- rbind(chain2,calOut$chain[[2]][seqX,])
-  chain3 <- rbind(chain3,calOut$chain[[3]][seqX,])
-  load(paste0("chains/calOut_7.",i,".rdata"))
-  chain1 <- rbind(chain1,calOut$chain[[1]][seqX,])
-  chain2 <- rbind(chain2,calOut$chain[[2]][seqX,])
-  chain3 <- rbind(chain3,calOut$chain[[3]][seqX,])
-  load(paste0("chains/calOut_8.",i,".rdata"))
-  chain1 <- rbind(chain1,calOut$chain[[1]][seqX,])
-  chain2 <- rbind(chain2,calOut$chain[[2]][seqX,])
-  chain3 <- rbind(chain3,calOut$chain[[3]][seqX,])
-  load(paste0("chains/calOut_9.",i,".rdata"))
-  chain1 <- rbind(chain1,calOut$chain[[1]][seqX,])
-  chain2 <- rbind(chain2,calOut$chain[[2]][seqX,])
-  chain3 <- rbind(chain3,calOut$chain[[3]][seqX,])
-  # load(paste0("chains/calOut_10.",i,".rdata"))
-  # chain1 <- rbind(chain1,calOut$chain[[1]][seqX,])
-  # chain2 <- rbind(chain2,calOut$chain[[2]][seqX,])
-  # chain3 <- rbind(chain3,calOut$chain[[3]][seqX,])
-  
+  for(ij in calSets){
+    load(paste0("chains/calOut_",ij,".",i,".rdata"))
+    chain1 <- calOut$chain[[1]][seqX,]
+    chain2 <- calOut$chain[[2]][seqX,]
+    chain3 <- calOut$chain[[3]][seqX,]
+  }
   mcmcList <- mcmc.list(mcmc(chain1),mcmc(chain2),mcmc(chain3))
   
   pChain[[i]] <- combine.mcmc(mcmc.objects=mcmcList)
