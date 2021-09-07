@@ -123,7 +123,7 @@ likelihood1 <- function(pValues,cal=T){
   if(cal==T){
     return(loglikelihood)  
   }else{
-    return(list(simV=outV,simB=outB,simH=output[Hdata_s1$outData],
+    return(list(simV=out_V,simB=out_B,simH=output[Hdata_s1$outData],
                 obsH = Hdata_s1$obs,simHc = output[Hcdata_s1$outData],
                 obsHc = Hcdata_s1$obs,simD=output[Ddata_s1$outData],
                 obsD=Ddata_s1$obs,obsB =Bdata_s1$obs,
@@ -175,7 +175,7 @@ likelihood2 <- function(pValues,cal=T){
   if(cal==T){
     return(loglikelihood)  
   }else{
-    return(list(simV=outV,simB=outB,simH=output[Hdata_s2$outData],
+    return(list(simV=out_V,simB=out_B,simH=output[Hdata_s2$outData],
                 obsH = Hdata_s2$obs,simHc = output[Hcdata_s2$outData],
                 obsHc = Hcdata_s2$obs,simD=output[Ddata_s2$outData],
                 obsD=Ddata_s2$obs,obsB =Bdata_s2$obs,
@@ -227,7 +227,7 @@ likelihood3 <- function(pValues,cal=T){
   if(cal==T){
     return(loglikelihood)  
   }else{
-    return(list(simV=outV,simB=outB,simH=output[Hdata_s3$outData],
+    return(list(simV=out_V,simB=out_B,simH=output[Hdata_s3$outData],
                 obsH = Hdata_s3$obs,simHc = output[Hcdata_s3$outData],
                 obsHc = Hcdata_s3$obs,simD=output[Ddata_s3$outData],
                 obsD=Ddata_s3$obs,obsB =Bdata_s3$obs,
@@ -318,7 +318,7 @@ likelihood4 <- function(pValues,cal=T){
   if(cal==T){
     return(loglikelihood)  
   }else{
-    return(list(simV=outV,simB=outB,simH=output[Hdata_s4$outData],
+    return(list(simV=out_V,simB=out_B,simH=output[Hdata_s4$outData],
                 obsH = Hdata_s4$obs,simHc = output[Hcdata_s4$outData],
                 obsHc = Hcdata_s4$obs,simD=output[Ddata_s4$outData],
                 obsD=Ddata_s4$obs,obsB =Bdata_s4$obs,
