@@ -37,7 +37,10 @@ load("outCal/pMAP.rdata")
 
 
 startX <- Sys.time()
-modOut <- multiPrebas(initPrebas)
+modOut1 <- likelihood1(pMAP,cal=F)
+modOut2 <- likelihood2(pMAP,cal=F)
+modOut3 <- likelihood3(pMAP,cal=F)
+modOut4 <- likelihood4(pMAP,cal=F)
 endX <- Sys.time()
 timeX = endX- startX
 print(timeX)
