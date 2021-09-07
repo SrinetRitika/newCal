@@ -16,7 +16,7 @@ library(Rprebasso)
 setwd("/scratch/project_2000994/calibrations/all")
 
 
-load("input/initPrebas.rdata")
+load("inputs/initPrebas.rdata")
 
 load("outCal/pMAP.rdata")
 # fileNamelastCal <- paste0("chains/calOut_n8.RData")
