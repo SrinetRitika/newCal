@@ -118,7 +118,7 @@ likelihood1 <- function(pValues,cal=T){
   # ll_Hc <- sum(dnorm(diff_Hc,sd = pValues[79]+pValues[80]*output[outdata_Hc],log=T))
   # ll_V <- sum(dnorm(diff_V,sd = pValues[81]+pValues[82]*output[outdata_V],log=T))
   
-  loglikelihood <-  sum(ll_H,ll_D,ll_B,ll_Hc,ll_V)
+  loglikelihood <- sum(ll_H,ll_D,ll_B,ll_Hc,ll_V)
   # }
   if(cal==T){
     return(loglikelihood)  
@@ -130,7 +130,6 @@ likelihood1 <- function(pValues,cal=T){
                 obsV =Vdata_s1$obs,
                 output=output))
   }
-  
 }
 
 
