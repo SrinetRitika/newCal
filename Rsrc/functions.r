@@ -82,7 +82,7 @@ subInit <- function(initPrebas,setX){
   return(init_setX)
 }
 
-likelihood1 <- function(pValues){
+likelihood1 <- function(pValues,cal=T){
   ###init_set1
   init_set1$pCROBAS <- pCROB
   init_set1$pCROBAS[parSel,1] <- pValues[1:nparCROB]
@@ -120,12 +120,21 @@ likelihood1 <- function(pValues){
   
   loglikelihood <-  sum(ll_H,ll_D,ll_B,ll_Hc,ll_V)
   # }
+  if(cal=T){
+    return(loglikelihood)  
+  }else{
+    return(list(simV=outV,simB=outB,simH=output[Hdata_s1$outData],
+                obsH = Hdata_s1$obs,simHc = output[Hcdata_s1$outData],
+                obsHc = Hcdata_s1$obs,simD=output[Ddata_s1$outData],
+                obsD=Ddata_s1$obs,obsB =Bdata_s1$obs,
+                obsV =Vdata_s1$obs,
+                output=output))
+  }
   
-  return(loglikelihood)
 }
 
 
-likelihood2 <- function(pValues){
+likelihood2 <- function(pValues,cal=T){
   ###init_set2
   init_set2$pCROBAS <- pCROB
   init_set2$pCROBAS[parSel,1] <- pValues[1:nparCROB]
@@ -164,11 +173,20 @@ likelihood2 <- function(pValues){
   loglikelihood <-  sum(ll_H,ll_D,ll_B,ll_Hc,ll_V)
   # }
   
-  return(loglikelihood)
+  if(cal=T){
+    return(loglikelihood)  
+  }else{
+    return(list(simV=outV,simB=outB,simH=output[Hdata_s2$outData],
+                obsH = Hdata_s2$obs,simHc = output[Hcdata_s2$outData],
+                obsHc = Hcdata_s2$obs,simD=output[Ddata_s2$outData],
+                obsD=Ddata_s2$obs,obsB =Bdata_s2$obs,
+                obsV =Vdata_s2$obs,
+                output=output))
+  }
 }
 
 
-likelihood3 <- function(pValues){
+likelihood3 <- function(pValues,cal=T){
   ###init_set3
   init_set3$pCROBAS <- pCROB
   init_set3$pCROBAS[parSel,1] <- pValues[1:nparCROB]
@@ -207,11 +225,20 @@ likelihood3 <- function(pValues){
   loglikelihood <-  sum(ll_H,ll_D,ll_B,ll_Hc,ll_V)
   # }
   
-  return(loglikelihood)
+  if(cal=T){
+    return(loglikelihood)  
+  }else{
+    return(list(simV=outV,simB=outB,simH=output[Hdata_s3$outData],
+                obsH = Hdata_s3$obs,simHc = output[Hcdata_s3$outData],
+                obsHc = Hcdata_s3$obs,simD=output[Ddata_s3$outData],
+                obsD=Ddata_s3$obs,obsB =Bdata_s3$obs,
+                obsV =Vdata_s3$obs,
+                output=output))
+  }
 }
 
 ##########old growth likelihood
-likelihood4 <- function(pValues){
+likelihood4 <- function(pValues,cal=T){
   ###init_set4
   init_set4$pCROBAS <- pCROB
   init_set4$pCROBAS[parSel,1] <- pValues[1:nparCROB]
@@ -289,7 +316,23 @@ likelihood4 <- function(pValues){
   # 
   loglikelihood <-  sum(ll_H,ll_D,ll_B,ll_Hc,ll_V,ll_wf1_p,ll_wf2_p,ll_As_p,ll_wf1_s,ll_wf2_s,ll_As_s)
   
-  return(loglikelihood)
+  if(cal=T){
+    return(loglikelihood)  
+  }else{
+    return(list(simV=outV,simB=outB,simH=output[Hdata_s4$outData],
+                obsH = Hdata_s4$obs,simHc = output[Hcdata_s4$outData],
+                obsHc = Hcdata_s4$obs,simD=output[Ddata_s4$outData],
+                obsD=Ddata_s4$obs,obsB =Bdata_s4$obs,
+                obsV =Vdata_s4$obs,
+                simWf1_p=Wf1_p,wf_p_obs=wf_p_obs,
+                simWf2_p= Wf2_p,wf_p_obs=wf_p_obs,
+                simAs_p =As_p,As_p_obs=As_p_obs,
+                simWf1_s=Wf1_s,wf_s_obs=wf_s_obs,
+                simWf2_s= Wf2_s,wf_s_obs=wf_s_obs,
+                simAs_s =As_s,As_s_obs=As_s_obs,
+                output=output
+                ))
+  }
 }
 
 ##Sivia likelihood

@@ -12,30 +12,29 @@ library(ggpubr)
 devtools::install_github("ForModLabUHel/Rprebasso")
 library(Rprebasso)
 
-# setwd("C:/Users/minunno/Documents/research/calibrationNew/all")
-setwd("/scratch/project_2000994/calibrations/all")
+if(vLocal){
+  setwd("C:/Users/checcomi/Documents/github/newCal/")
+}else{
+  setwd("/scratch/project_2000994/calibrations/newCal/")
+}
 
+devtools::source_url("https://raw.githubusercontent.com/ForModLabUHel/newCal/master/Rsrc/functions.r")
+devtools::source_url("https://raw.githubusercontent.com/ForModLabUHel/newCal/master/Rsrc/settings.r")
 
-load("input/initPrebas.rdata")
+###load data for initialization
+load(url('https://raw.githubusercontent.com/ForModLabUHel/newCal/master/inputs/init_set1.rdata'))
+load(url('https://raw.githubusercontent.com/ForModLabUHel/newCal/master/inputs/init_set2.rdata'))
+load(url('https://raw.githubusercontent.com/ForModLabUHel/newCal/master/inputs/init_set3.rdata'))
+load(url('https://raw.githubusercontent.com/ForModLabUHel/newCal/master/inputs/init_set4.rdata'))
+
+vapu_S<-read.csv(url('https://raw.githubusercontent.com/ForModLabUHel/newCal/master/inputs/VAPU_spruce.csv'))
+nData_S <- length(vapu_S$plotNo)
+vapu_P<-read.csv(url('https://raw.githubusercontent.com/ForModLabUHel/newCal/master/inputs/VAPU_pine.csv'))
+nData_P <- length(vapu_P$plot)
+
 
 load("outCal/pMAP.rdata")
-# fileNamelastCal <- paste0("chains/calOut_n8.RData")
-# # load("input/startValue.rdata")
-# if(!exists("pMAP")){
-#   load(fileNamelastCal)
-#   pMAP <- MAP(calOut)[[1]]
-# }
 
-parSel <- c(1:18,31:34,38,41)
-nparCROB <- length(parSel)
-
-initPrebas$pCROBAS <- pCROB
-initPrebas$pCROBAS[parSel,1] <- pMAP[1:nparCROB]
-initPrebas$pCROBAS[parSel,2] <- pMAP[(nparCROB + 1):(nparCROB*2)]
-initPrebas$pCROBAS[parSel,3] <- pMAP[(nparCROB*2 + 1):(nparCROB*3)]
-
-# pCROBAS <- initPrebas$pCROBAS 
-# save(pCROBAS,file=paste0(unlist(strsplit(fileNamelastCal,"[.]"))[1],"_pMAP.rdata"))
 
 startX <- Sys.time()
 modOut <- multiPrebas(initPrebas)
