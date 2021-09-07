@@ -120,7 +120,7 @@ likelihood1 <- function(pValues,cal=T){
   
   loglikelihood <-  sum(ll_H,ll_D,ll_B,ll_Hc,ll_V)
   # }
-  if(cal=T){
+  if(cal==T){
     return(loglikelihood)  
   }else{
     return(list(simV=outV,simB=outB,simH=output[Hdata_s1$outData],
@@ -173,7 +173,7 @@ likelihood2 <- function(pValues,cal=T){
   loglikelihood <-  sum(ll_H,ll_D,ll_B,ll_Hc,ll_V)
   # }
   
-  if(cal=T){
+  if(cal==T){
     return(loglikelihood)  
   }else{
     return(list(simV=outV,simB=outB,simH=output[Hdata_s2$outData],
@@ -225,7 +225,7 @@ likelihood3 <- function(pValues,cal=T){
   loglikelihood <-  sum(ll_H,ll_D,ll_B,ll_Hc,ll_V)
   # }
   
-  if(cal=T){
+  if(cal==T){
     return(loglikelihood)  
   }else{
     return(list(simV=outV,simB=outB,simH=output[Hdata_s3$outData],
@@ -316,7 +316,7 @@ likelihood4 <- function(pValues,cal=T){
   # 
   loglikelihood <-  sum(ll_H,ll_D,ll_B,ll_Hc,ll_V,ll_wf1_p,ll_wf2_p,ll_As_p,ll_wf1_s,ll_wf2_s,ll_As_s)
   
-  if(cal=T){
+  if(cal==T){
     return(loglikelihood)  
   }else{
     return(list(simV=outV,simB=outB,simH=output[Hdata_s4$outData],
