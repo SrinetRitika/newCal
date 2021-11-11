@@ -17,9 +17,15 @@ pMAP <- NULL
 for(i in 1:20){
   for(ij in calSets){
     load(paste0("chains/calOut_",ij,".",i,".rdata"))
-    chain1 <- calOut$chain[[1]][seqX,]
-    chain2 <- calOut$chain[[2]][seqX,]
-    chain3 <- calOut$chain[[3]][seqX,]
+    if(ij==calSets[1]){
+      chain1 <- calOut$chain[[1]][seqX,]
+      chain2 <- calOut$chain[[2]][seqX,]
+      chain3 <- calOut$chain[[3]][seqX,]
+    }else{
+      chain1 <- c(chain1,calOut$chain[[1]][seqX,])
+      chain2 <- c(chain2,calOut$chain[[2]][seqX,])
+      chain3 <- c(chain3,calOut$chain[[3]][seqX,])
+    }
   }
   mcmcList <- mcmc.list(mcmc(chain1),mcmc(chain2),mcmc(chain3))
   
