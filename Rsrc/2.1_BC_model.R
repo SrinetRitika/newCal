@@ -52,11 +52,11 @@ if(calSet == 0){
   startValue[3,] <- runif(npar,parmin,parmax)
   startValue[1,1:(length(parSel)*3)] <- c(pCROB[parSel,1],pCROB[parSel,2],pCROB[parSel,3])
   
-  settings = list(iterations = iters, 
+  settings = list(iterations = iters, f=fX, 
                   startValue = startValue,message=FALSE)
   
   calOut <- runMCMC(bayesianSetup = bayesianSetup, 
-                    sampler = "DREAMzs", settings = settings)
+                    sampler = calAlg, settings = settings)
 }else{
   ####continue calibration
   load(lastCal)
@@ -66,6 +66,6 @@ if(calSet == 0){
                   burnin=0,message=FALSE)
   
   calOut <- runMCMC(bayesianSetup = bayesianSetup,
-                   sampler = "DREAMzs", settings = settings)
+                   sampler = calAlg, settings = settings)
 }
 save(calOut,file=newCal)

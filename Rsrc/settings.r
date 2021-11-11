@@ -2,6 +2,9 @@
 if(!exists("vLocal")) vLocal <- FALSE
 
 ###split data for parallelization
+fX <- 2.38 * 2
+calAlg <- "DEzs"
+  
 set1 <- 1:300
 set2 <- 301:600
 set3 <- 601:922
