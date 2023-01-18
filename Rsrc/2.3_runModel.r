@@ -13,7 +13,7 @@ devtools::install_github("ForModLabUHel/Rprebasso")
 library(Rprebasso)
 
 if(vLocal){
-  setwd("C:/Users/checcomi/Documents/github/newCal/")
+  setwd("C:/Users/minunno/Documents/github/newCal/")
 }else{
   setwd("/scratch/project_2000994/calibrations/newCal/")
 }
