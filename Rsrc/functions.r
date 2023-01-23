@@ -361,4 +361,4 @@ likelihood <- function(pValues){
 #   run the model for eddysites  ##!!for Ritika
 #   calculate the likelihood  ##!!for Ritika
 #   return(likeFluxSites) ##!!for Ritika
-}
+#}
