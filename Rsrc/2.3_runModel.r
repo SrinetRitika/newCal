@@ -1,7 +1,10 @@
+#1# specify packages folder if you are on puhti
 vLocal <- FALSE
 if(!vLocal){
   .libPaths(c("/scratch/project_2000994/project_rpackages", .libPaths()))
 }
+#1#
+
 library(ggplot2)
 library(Metrics)
 library(data.table)
@@ -9,15 +12,19 @@ library(data.table)
 library(BayesianTools)
 library(ggpubr)
 
+#2# install package if needed
 devtools::install_github("ForModLabUHel/Rprebasso")
 library(Rprebasso)
 
+#3# setting working directory
 if(vLocal){
+  #you need to change this if you want to work on your local machine
   setwd("C:/Users/minunno/Documents/github/newCal/")
 }else{
   setwd("/scratch/project_2000994/calibrations/newCal/")
 }
 
+###loading functions and settings
 devtools::source_url("https://raw.githubusercontent.com/ForModLabUHel/newCal/master/Rsrc/functions.r")
 devtools::source_url("https://raw.githubusercontent.com/ForModLabUHel/newCal/master/Rsrc/settings.r")
 

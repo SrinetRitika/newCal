@@ -1,10 +1,10 @@
 ####settings
 if(!exists("vLocal")) vLocal <- FALSE
 
-###split data for parallelization
-if(!exists("fX")) fX <- 2.38
-if(!exists("calAlg")) calAlg <- "DEzs"
+if(!exists("fX")) fX <- 2.38  ###parameter of DEzs algorithm
+if(!exists("calAlg")) calAlg <- "DEzs"  ###MC algorithm
   
+###siteIDs used in the different calibration sets
 set1 <- 1:300
 set2 <- 301:600
 set3 <- 601:922
@@ -19,6 +19,7 @@ parmin <- param_all[,3]
 parmax <- param_all[,4] 
 parnam <- as.character(param_all[,1])
 npar <- length(parmod)
+
 ###error parameters
 a_Hind <- which(parnam=="a_H")
 b_Hind <- which(parnam=="b_H")

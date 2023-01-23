@@ -312,7 +312,9 @@ likelihood4 <- function(pValues,cal=T){
   # ll_B <- sum(dnorm(diff_B,sd = pValues[77]+pValues[78]*output[outdata_B],log=T))
   # ll_Hc <- sum(dnorm(diff_Hc,sd = pValues[79]+pValues[80]*output[outdata_Hc],log=T))
   # ll_V <- sum(dnorm(diff_V,sd = pValues[81]+pValues[82]*output[outdata_V],log=T))
-  # 
+  
+  # llFluxSites <- likelihoodFluxSites(pValues) ##!!for Ritika
+  # loglikelihood <-  sum(llFluxSites,ll_H,ll_D,ll_B,ll_Hc,ll_V,ll_wf1_p,ll_wf2_p,ll_As_p,ll_wf1_s,ll_wf2_s,ll_As_s) ##!!for Ritika
   loglikelihood <-  sum(ll_H,ll_D,ll_B,ll_Hc,ll_V,ll_wf1_p,ll_wf2_p,ll_As_p,ll_wf1_s,ll_wf2_s,ll_As_s)
   
   if(cal==T){
@@ -353,3 +355,10 @@ likelihood <- function(pValues){
   return(llP)
 }
 
+# likelihoodFluxSites <- function(pValues){  ##!!for Ritika
+#   take the initialized model  ##!!for Ritika
+#   change the parameters  ##!!for Ritika
+#   run the model for eddysites  ##!!for Ritika
+#   calculate the likelihood  ##!!for Ritika
+#   return(likeFluxSites) ##!!for Ritika
+}
