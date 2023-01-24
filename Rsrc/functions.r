@@ -84,13 +84,12 @@ subInit <- function(initPrebas,setX){
 
 likelihood1 <- function(pValues,cal=T){
   ###init_set1
-  p<-pValues
   init_set1$pPRELES <- pPREL
-  init_set1$pPRELES[parSel_PREL] <- p[1:nparPREL]
+  init_set1$pPRELES[parSel_PREL] <- pValues[1:nparPREL]
   init_set1$pCROBAS <- pCROB
-  init_set1$pCROBAS[parSel_CROB,1] <- p[(nparPREL+1):(nparPREL+nparCROB)]
-  init_set1$pCROBAS[parSel_CROB,2] <- p[(nparPREL+nparCROB + 1):(nparPREL+(nparCROB*2))]
-  init_set1$pCROBAS[parSel_CROB,3] <- p[((nparPREL+(nparCROB*2)) + 1):(nparPREL+(nparCROB*3))]
+  init_set1$pCROBAS[parSel_CROB,1] <- pValues[(nparPREL+1):(nparPREL+nparCROB)]
+  init_set1$pCROBAS[parSel_CROB,2] <- pValues[(nparPREL+nparCROB + 1):(nparPREL+(nparCROB*2))]
+  init_set1$pCROBAS[parSel_CROB,3] <- pValues[((nparPREL+(nparCROB*2)) + 1):(nparPREL+(nparCROB*3))]
   
   output <- multiPrebas(init_set1)$multiOut
   # if (output==-999){
@@ -365,22 +364,16 @@ likelihood <- function(pValues){
 
 
 
-# likelihoodFluxSites <- function(pValues){  ##!!for Ritika
-#   take the initialized model  ##!!for Ritika
-#   change the parameters  ##!!for Ritika
-#   run the model for eddysites  ##!!for Ritika
-#   calculate the likelihood  ##!!for Ritika
-#   return(likeFluxSites) ##!!for Ritika
-#}
+# added likelihood function for flux tower sites
+
 likelihood5Flux <- function(pValues,cal=T){####modified
   ###init_set5Flux
-  
   init_set5Flux$pPRELES <- pPREL
-  init_set5Flux$pPRELES[parSel_PREL] <- p[1:nparPREL]
+  init_set5Flux$pPRELES[parSel_PREL] <- pValues[1:nparPREL]
   init_set5Flux$pCROBAS <- pCROB
-  init_set5Flux$pCROBAS[parSel_CROB,1] <- p[(nparPREL+1):(nparPREL+nparCROB)]
-  init_set5Flux$pCROBAS[parSel_CROB,2] <- p[(nparPREL+nparCROB + 1):(nparPREL+(nparCROB*2))]
-  init_set5Flux$pCROBAS[parSel_CROB,3] <- p[((nparPREL+(nparCROB*2)) + 1):(nparPREL+(nparCROB*3))]
+  init_set5Flux$pCROBAS[parSel_CROB,1] <- pValues[(nparPREL+1):(nparPREL+nparCROB)]
+  init_set5Flux$pCROBAS[parSel_CROB,2] <- pValues[(nparPREL+nparCROB + 1):(nparPREL+(nparCROB*2))]
+  init_set5Flux$pCROBAS[parSel_CROB,3] <- pValues[((nparPREL+(nparCROB*2)) + 1):(nparPREL+(nparCROB*3))]
   
   PREBASout <- multiPrebas(init_set5Flux)
   
@@ -395,8 +388,8 @@ likelihood5Flux <- function(pValues,cal=T){####modified
     
     diff_GPPNT <- predictedFlux[indGPP[i,],1][(indGPP[i,]>0)]-flux[indGPP[i,],2,i][(indGPP[i,]>0)]
     diff_ET <-predictedFlux[indET[i,],2][(indET[i,]>0)]-flux[indET[i,],3,i][(indET[i,]>0)]
-    ll_GPP <- sum(dexp(abs(diff_GPPNT),rate = 1/(p[14]+p[15]*predictedFlux[indGPP[i,],1][(indGPP[i,]>0)]),log=T))
-    ll_ET <- sum(dexp(abs(diff_ET),rate = 1/(p[16]+p[17]*predictedFlux[indET[i,],2][(indET[i,]>0)]),log=T))
+    ll_GPP <- sum(dexp(abs(diff_GPPNT),rate = 1/(pValues[14]+pValues[15]*predictedFlux[indGPP[i,],1][(indGPP[i,]>0)]),log=T))
+    ll_ET <- sum(dexp(abs(diff_ET),rate = 1/(pValues[16]+pValues[17]*predictedFlux[indET[i,],2][(indET[i,]>0)]),log=T))
     llvalues_PREL <-  sum(llvalues_PREL, ll_GPP, ll_ET)
     
     simGPP<-cbind(predictedFlux[indGPP[i,],1][(indGPP[i,]>0)])
@@ -426,10 +419,10 @@ likelihood5Flux <- function(pValues,cal=T){####modified
     obsB<-cbind(obsInv[indBA[i,],5,i][(indBA[i,]>0)])
     obsHc<-cbind(obsInv[indHc[i,],6,i][(indHc[i,]>0)])
     
-    ll_H <- sum(Sivia_log(diff_H,sd = p[nparPREL+(nparCROB*3)+1]+p[nparPREL+(nparCROB*3)+2]*output[dim.H][(indH[i,]>0)]))
-    ll_D <- sum(Sivia_log(diff_D,sd = p[nparPREL+(nparCROB*3)+3]+p[nparPREL+(nparCROB*3)+4]*output[dim.D][(indD[i,]>0)]))
-    ll_B <- sum(Sivia_log(diff_B,sd = p[nparPREL+(nparCROB*3)+5]+p[nparPREL+(nparCROB*3)+6]*output[dim.B][(indBA[i,]>0)]))
-    ll_Hc <- sum(Sivia_log(diff_Hc,sd = p[nparPREL+(nparCROB*3)+7]+p[nparPREL+(nparCROB*3)+8]*output[dim.Hc][(indHc[i,]>0)]))
+    ll_H <- sum(Sivia_log(diff_H,sd = pValues[nparPREL+(nparCROB*3)+1]+pValues[nparPREL+(nparCROB*3)+2]*output[dim.H][(indH[i,]>0)]))
+    ll_D <- sum(Sivia_log(diff_D,sd = pValues[nparPREL+(nparCROB*3)+3]+pValues[nparPREL+(nparCROB*3)+4]*output[dim.D][(indD[i,]>0)]))
+    ll_B <- sum(Sivia_log(diff_B,sd = pValues[nparPREL+(nparCROB*3)+5]+pValues[nparPREL+(nparCROB*3)+6]*output[dim.B][(indBA[i,]>0)]))
+    ll_Hc <- sum(Sivia_log(diff_Hc,sd = pValues[nparPREL+(nparCROB*3)+7]+pValues[nparPREL+(nparCROB*3)+8]*output[dim.Hc][(indHc[i,]>0)]))
     
     llvalues_CROB <-  sum(llvalues_CROB,ll_H,ll_D,ll_B,ll_Hc)
   }
