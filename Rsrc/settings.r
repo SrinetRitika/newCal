@@ -9,11 +9,18 @@ set1 <- 1:300
 set2 <- 301:600
 set3 <- 601:922
 set4 <- 923:948
+set5 <- 949:950
 
 ###process parameters
-parSel <- c(1:18,31:34,38,41)
+parSel_PREL <- c(5:11,14:18,21,31:34)
+nparPREL <- length(parSel_PREL)
+#CROBAS parameters
+#parSel_CROB <- c(1:18,31:34,38,41) #original
+#parSel_CROB <- c(1:15,17,18,38,41) #modified 
+parSel_CROB <- c(1:15,17,18,21:25,38,41) #added alphar
+nparCROB <- length(parSel_CROB)
 nparCROB <- length(parSel)
-param_all <- read.csv(url('https://raw.githubusercontent.com/ForModLabUHel/newCal/master/inputs/parameters.csv'))
+param_all <- read.csv('Z:/PREBAS_calibration/newCal/inputs/par_prebas_newCal.csv')
 parmod <- param_all[,2] 
 parmin <- param_all[,3] 
 parmax <- param_all[,4] 
@@ -42,9 +49,10 @@ b_WfDataind <- which(parnam=="b_WfData")
 
 nCores <- ifelse(vLocal,1,4)
 
-sets <- 1:4
+sets <- 1:5
 likelihoods <- list()
 likelihoods[[1]] <- likelihood1
 likelihoods[[2]] <- likelihood2
 likelihoods[[3]] <- likelihood3
 likelihoods[[4]] <- likelihood4
+likelihoods[[5]] <- likelihood5Flux
