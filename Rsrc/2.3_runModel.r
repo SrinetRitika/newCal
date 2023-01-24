@@ -19,35 +19,34 @@ library(Rprebasso)
 #3# setting working directory
 if(vLocal){
   #you need to change this if you want to work on your local machine
-  setwd("C:/Users/minunno/Documents/github/newCal/")
+  setwd("Z:/PREBAS_calibration/newCal/")
 }else{
   setwd("/scratch/project_2000994/calibrations/newCal/")
 }
 
 ###loading functions and settings
-devtools::source_url("https://raw.githubusercontent.com/ForModLabUHel/newCal/master/Rsrc/functions.r")
-devtools::source_url("https://raw.githubusercontent.com/ForModLabUHel/newCal/master/Rsrc/settings.r")
-
+source('Rsrc/functions.r')
+source('Rsrc/settings.r')
 ###load data for initialization
-load(url('https://raw.githubusercontent.com/ForModLabUHel/newCal/master/inputs/init_set1.rdata'))
-load(url('https://raw.githubusercontent.com/ForModLabUHel/newCal/master/inputs/init_set2.rdata'))
-load(url('https://raw.githubusercontent.com/ForModLabUHel/newCal/master/inputs/init_set3.rdata'))
-load(url('https://raw.githubusercontent.com/ForModLabUHel/newCal/master/inputs/init_set4.rdata'))
+load('inputs/init_set1.rdata')
+load('inputs/init_set2.rdata')
+load('inputs/init_set3.rdata')
+load('inputs/init_set4.rdata')
+load('inputs/init_set5Flux.rdata')
 
 vapu_S<-read.csv(url('https://raw.githubusercontent.com/ForModLabUHel/newCal/master/inputs/VAPU_spruce.csv'))
 nData_S <- length(vapu_S$plotNo)
 vapu_P<-read.csv(url('https://raw.githubusercontent.com/ForModLabUHel/newCal/master/inputs/VAPU_pine.csv'))
 nData_P <- length(vapu_P$plot)
 
-
 load("outCal/pMAP.rdata")
-
 
 startX <- Sys.time()
 modOut1 <- likelihood1(pMAP,cal=F)
 modOut2 <- likelihood2(pMAP,cal=F)
 modOut3 <- likelihood3(pMAP,cal=F)
 modOut4 <- likelihood4(pMAP,cal=F)
+modOut5 <- likelihood5Flux(pMAP,cal=F)
 endX <- Sys.time()
 timeX = endX- startX
 print(timeX)

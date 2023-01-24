@@ -1,5 +1,5 @@
-##I have intergrated the old growth data into initprebas and made it data set4
-##questions:how to set pvalues in the likelihood function? a serial of numbers for each parameter
+## I have intergrated the old growth data into initprebas and made it data set4
+## questions:how to set pvalues in the likelihood function? a serial of numbers for each parameter
 
 
 # initPrebas$pCROBAS <- pCROB
@@ -84,10 +84,12 @@ subInit <- function(initPrebas,setX){
 
 likelihood1 <- function(pValues,cal=T){
   ###init_set1
+  init_set1$pPRELES <- pPREL
+  init_set1$pPRELES[parSel_PREL] <- pValues[1:nparPREL]
   init_set1$pCROBAS <- pCROB
-  init_set1$pCROBAS[parSel,1] <- pValues[1:nparCROB]
-  init_set1$pCROBAS[parSel,2] <- pValues[(nparCROB + 1):(nparCROB*2)]
-  init_set1$pCROBAS[parSel,3] <- pValues[(nparCROB*2 + 1):(nparCROB*3)]
+  init_set1$pCROBAS[parSel_CROB,1] <- pValues[(nparPREL+1):(nparPREL+nparCROB)]
+  init_set1$pCROBAS[parSel_CROB,2] <- pValues[(nparPREL+nparCROB + 1):(nparPREL+(nparCROB*2))]
+  init_set1$pCROBAS[parSel_CROB,3] <- pValues[((nparPREL+(nparCROB*2)) + 1):(nparPREL+(nparCROB*3))]
   
   output <- multiPrebas(init_set1)$multiOut
   # if (output==-999){
@@ -135,10 +137,12 @@ likelihood1 <- function(pValues,cal=T){
 
 likelihood2 <- function(pValues,cal=T){
   ###init_set2
+  init_set2$pPRELES <- pPREL
+  init_set2$pPRELES[parSel_PREL] <- pValues[1:nparPREL]
   init_set2$pCROBAS <- pCROB
-  init_set2$pCROBAS[parSel,1] <- pValues[1:nparCROB]
-  init_set2$pCROBAS[parSel,2] <- pValues[(nparCROB + 1):(nparCROB*2)]
-  init_set2$pCROBAS[parSel,3] <- pValues[(nparCROB*2 + 1):(nparCROB*3)]
+  init_set2$pCROBAS[parSel_CROB,1] <- pValues[(nparPREL+1):(nparPREL+nparCROB)]
+  init_set2$pCROBAS[parSel_CROB,2] <- pValues[(nparPREL+nparCROB + 1):(nparPREL+(nparCROB*2))]
+  init_set2$pCROBAS[parSel_CROB,3] <- pValues[((nparPREL+(nparCROB*2)) + 1):(nparPREL+(nparCROB*3))]
   
   output <- multiPrebas(init_set2)$multiOut
   # if (output==-999){
@@ -187,10 +191,12 @@ likelihood2 <- function(pValues,cal=T){
 
 likelihood3 <- function(pValues,cal=T){
   ###init_set3
+  init_set3$pPRELES <- pPREL
+  init_set3$pPRELES[parSel_PREL] <- pValues[1:nparPREL]
   init_set3$pCROBAS <- pCROB
-  init_set3$pCROBAS[parSel,1] <- pValues[1:nparCROB]
-  init_set3$pCROBAS[parSel,2] <- pValues[(nparCROB + 1):(nparCROB*2)]
-  init_set3$pCROBAS[parSel,3] <- pValues[(nparCROB*2 + 1):(nparCROB*3)]
+  init_set3$pCROBAS[parSel_CROB,1] <- pValues[(nparPREL+1):(nparPREL+nparCROB)]
+  init_set3$pCROBAS[parSel_CROB,2] <- pValues[(nparPREL+nparCROB + 1):(nparPREL+(nparCROB*2))]
+  init_set3$pCROBAS[parSel_CROB,3] <- pValues[((nparPREL+(nparCROB*2)) + 1):(nparPREL+(nparCROB*3))]
   
   output <- multiPrebas(init_set3)$multiOut
   # if (output==-999){
@@ -239,10 +245,12 @@ likelihood3 <- function(pValues,cal=T){
 ##########old growth likelihood
 likelihood4 <- function(pValues,cal=T){
   ###init_set4
+  init_set4$pPRELES <- pPREL
+  init_set4$pPRELES[parSel_PREL] <- pValues[1:nparPREL]
   init_set4$pCROBAS <- pCROB
-  init_set4$pCROBAS[parSel,1] <- pValues[1:nparCROB]
-  init_set4$pCROBAS[parSel,2] <- pValues[(nparCROB + 1):(nparCROB*2)]
-  init_set4$pCROBAS[parSel,3] <- pValues[(nparCROB*2 + 1):(nparCROB*3)]
+  init_set4$pCROBAS[parSel_CROB,1] <- pValues[(nparPREL+1):(nparPREL+nparCROB)]
+  init_set4$pCROBAS[parSel_CROB,2] <- pValues[(nparPREL+nparCROB + 1):(nparPREL+(nparCROB*2))]
+  init_set4$pCROBAS[parSel_CROB,3] <- pValues[((nparPREL+(nparCROB*2)) + 1):(nparPREL+(nparCROB*3))]
   
   output <- multiPrebas(init_set4)$multiOut
   
@@ -313,9 +321,7 @@ likelihood4 <- function(pValues,cal=T){
   # ll_Hc <- sum(dnorm(diff_Hc,sd = pValues[79]+pValues[80]*output[outdata_Hc],log=T))
   # ll_V <- sum(dnorm(diff_V,sd = pValues[81]+pValues[82]*output[outdata_V],log=T))
   
-  # llFluxSites <- likelihoodFluxSites(pValues) ##!!for Ritika
-  # loglikelihood <-  sum(llFluxSites,ll_H,ll_D,ll_B,ll_Hc,ll_V,ll_wf1_p,ll_wf2_p,ll_As_p,ll_wf1_s,ll_wf2_s,ll_As_s) ##!!for Ritika
-  loglikelihood <-  sum(ll_H,ll_D,ll_B,ll_Hc,ll_V,ll_wf1_p,ll_wf2_p,ll_As_p,ll_wf1_s,ll_wf2_s,ll_As_s)
+ loglikelihood <-  sum(ll_H,ll_D,ll_B,ll_Hc,ll_V,ll_wf1_p,ll_wf2_p,ll_As_p,ll_wf1_s,ll_wf2_s,ll_As_s)
   
   if(cal==T){
     return(loglikelihood)  
@@ -331,6 +337,7 @@ likelihood4 <- function(pValues,cal=T){
                 simWf1_s=Wf1_s,wf_s_obs=wf_s_obs,
                 simWf2_s= Wf2_s,wf_s_obs=wf_s_obs,
                 simAs_s =As_s,As_s_obs=As_s_obs,
+                
                 output=output
                 ))
   }
@@ -355,10 +362,77 @@ likelihood <- function(pValues){
   return(llP)
 }
 
-# likelihoodFluxSites <- function(pValues){  ##!!for Ritika
-#   take the initialized model  ##!!for Ritika
-#   change the parameters  ##!!for Ritika
-#   run the model for eddysites  ##!!for Ritika
-#   calculate the likelihood  ##!!for Ritika
-#   return(likeFluxSites) ##!!for Ritika
-#}
+
+
+# added likelihood function for flux tower sites
+
+likelihood5Flux <- function(pValues,cal=T){####modified
+  ###init_set5Flux
+  init_set5Flux$pPRELES <- pPREL
+  init_set5Flux$pPRELES[parSel_PREL] <- pValues[1:nparPREL]
+  init_set5Flux$pCROBAS <- pCROB
+  init_set5Flux$pCROBAS[parSel_CROB,1] <- pValues[(nparPREL+1):(nparPREL+nparCROB)]
+  init_set5Flux$pCROBAS[parSel_CROB,2] <- pValues[(nparPREL+nparCROB + 1):(nparPREL+(nparCROB*2))]
+  init_set5Flux$pCROBAS[parSel_CROB,3] <- pValues[((nparPREL+(nparCROB*2)) + 1):(nparPREL+(nparCROB*3))]
+  
+  PREBASout <- multiPrebas(init_set5Flux)
+  
+  llvalues_PREL<-0
+  llvalues_CROB<-0
+  
+  for(i in 1:init_set5Flux$nSites){
+    
+    ### likelihood PRELES
+    predictedFlux<- PREBASout$dailyPRELES[i,,]
+    
+    
+    diff_GPPNT <- predictedFlux[indGPP[i,],1][(indGPP[i,]>0)]-flux[indGPP[i,],2,i][(indGPP[i,]>0)]
+    diff_ET <-predictedFlux[indET[i,],2][(indET[i,]>0)]-flux[indET[i,],3,i][(indET[i,]>0)]
+    ll_GPP <- sum(dexp(abs(diff_GPPNT),rate = 1/(pValues[14]+pValues[15]*predictedFlux[indGPP[i,],1][(indGPP[i,]>0)]),log=T))
+    ll_ET <- sum(dexp(abs(diff_ET),rate = 1/(pValues[16]+pValues[17]*predictedFlux[indET[i,],2][(indET[i,]>0)]),log=T))
+    llvalues_PREL <-  sum(llvalues_PREL, ll_GPP, ll_ET)
+    
+    simGPP<-cbind(predictedFlux[indGPP[i,],1][(indGPP[i,]>0)])
+    obsGPP<-cbind(flux[indGPP[i,],2,i][(indGPP[i,]>0)])
+    simET<-cbind(predictedFlux[indET[i,],2][(indET[i,]>0)])
+    obsET<-cbind(flux[indET[i,],3,i][(indET[i,]>0)])
+    
+    #### identify the output in the array
+    dim.H<-cbind(rep(1:init_set5Flux$nYears[i], each=init_set5Flux$nLayers[i]),11,rep(1:init_set5Flux$nLayers[i],init_set5Flux$nYears[i]),1)
+    dim.D<-cbind(rep(1:init_set5Flux$nYears[i], each=init_set5Flux$nLayers[i]),12,rep(1:init_set5Flux$nLayers[i],init_set5Flux$nYears[i]),1)
+    dim.B<-cbind(rep(1:init_set5Flux$nYears[i], each=init_set5Flux$nLayers[i]),13,rep(1:init_set5Flux$nLayers[i],init_set5Flux$nYears[i]),1)
+    dim.Hc<-cbind(rep(1:init_set5Flux$nYears[i], each=init_set5Flux$nLayers[i]),14,rep(1:init_set5Flux$nLayers[i],init_set5Flux$nYears[i]),1)
+    
+    ### likelihood CROBAS
+    output<-PREBASout$multiOut[i,,,,]
+    diff_H <- output[dim.H][(indH[i,]>0)]-obsInv[indH[i,],3,i][(indH[i,]>0)]
+    diff_D <- output[dim.D][(indD[i,]>0)]-obsInv[indD[i,],4,i][(indD[i,]>0)]
+    diff_B <- output[dim.B][(indBA[i,]>0)]-obsInv[indBA[i,],5,i][(indBA[i,]>0)]
+    diff_Hc <- output[dim.Hc][(indHc[i,]>0)]-obsInv[indHc[i,],6,i][(indHc[i,]>0)]
+    
+    simH<-cbind(output[dim.H][(indH[i,]>0)])
+    simD<-cbind(output[dim.D][(indD[i,]>0)])
+    simB<-cbind(output[dim.B][(indBA[i,]>0)])
+    simHc<-cbind(output[dim.Hc][(indHc[i,]>0)])
+    obsH<-cbind(obsInv[indH[i,],3,i][(indH[i,]>0)])
+    obsD<-cbind(obsInv[indD[i,],4,i][(indD[i,]>0)])
+    obsB<-cbind(obsInv[indBA[i,],5,i][(indBA[i,]>0)])
+    obsHc<-cbind(obsInv[indHc[i,],6,i][(indHc[i,]>0)])
+    
+    ll_H <- sum(Sivia_log(diff_H,sd = pValues[nparPREL+(nparCROB*3)+1]+pValues[nparPREL+(nparCROB*3)+2]*output[dim.H][(indH[i,]>0)]))
+    ll_D <- sum(Sivia_log(diff_D,sd = pValues[nparPREL+(nparCROB*3)+3]+pValues[nparPREL+(nparCROB*3)+4]*output[dim.D][(indD[i,]>0)]))
+    ll_B <- sum(Sivia_log(diff_B,sd = pValues[nparPREL+(nparCROB*3)+5]+pValues[nparPREL+(nparCROB*3)+6]*output[dim.B][(indBA[i,]>0)]))
+    ll_Hc <- sum(Sivia_log(diff_Hc,sd = pValues[nparPREL+(nparCROB*3)+7]+pValues[nparPREL+(nparCROB*3)+8]*output[dim.Hc][(indHc[i,]>0)]))
+    
+    llvalues_CROB <-  sum(llvalues_CROB,ll_H,ll_D,ll_B,ll_Hc)
+  }
+  
+  loglikelihoodFlux <-  sum(llvalues_CROB + llvalues_PREL) ##!!for Ritika
+  
+  if(cal==T){
+    return(loglikelihoodFlux)  
+  }else{
+    return(list(simGPP, simET, simH, simD, simB, simHc,
+                obsGPP, obsET, obsH, obsD, obsB, obsHc))
+  }
+}
