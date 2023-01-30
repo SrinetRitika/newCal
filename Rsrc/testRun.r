@@ -20,14 +20,15 @@ library(Rprebasso)
 # setwd("/scratch/project_2000994/calibrations/newCal")
 setwd("C:/Users/checcomi/Documents/github/newCal")
 
-source("functions.r") ###run using url
-source("settings.r") ###run using url
+source('Rsrc/functions.r') ###run using url
+source('Rsrc/settings.r') ###run using url
 
 # load("inputs/initPrebas_old growth.rdata")
 load("inputs/init_set1.rdata")
 load("inputs/init_set2.rdata")
 load("inputs/init_set3.rdata")
 load("inputs/init_set4.rdata")
+load("inputs/init_set5Flux.rdata")
 
 load("outCal/pMAP.rdata")
 
@@ -48,7 +49,8 @@ ll1 <- likelihood1(pMAP)
 ll2 <- likelihood2(pMAP)
 ll3 <- likelihood3(pMAP)
 ll4 <- likelihood4(pMAP)
-llS <- ll1 + ll2 +ll3+ll4
+ll5 <- likelihood5Flux(pMAP)
+llS <- ll1 + ll2 +ll3 + ll4 + ll5
 endX <- Sys.time()
 timeX = endX- startX
 print("sequential runs")
