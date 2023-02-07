@@ -19,8 +19,7 @@ nparPREL <- length(parSel_PREL)
 #parSel_CROB <- c(1:15,17,18,38,41) #modified 
 parSel_CROB <- c(1:15,17,18,21:25,38,41) #added alphar
 nparCROB <- length(parSel_CROB)
-nparCROB <- length(parSel)
-param_all <- read.csv('Z:/PREBAS_calibration/newCal/inputs/par_prebas_newCal.csv')
+param_all <- read.csv('inputs/par_prebas_newCal.csv')
 parmod <- param_all[,2] 
 parmin <- param_all[,3] 
 parmax <- param_all[,4] 

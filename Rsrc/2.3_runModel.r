@@ -42,11 +42,11 @@ nData_P <- length(vapu_P$plot)
 load("outCal/pMAP.rdata")
 
 startX <- Sys.time()
-modOut1 <- likelihood1(pMAP,cal=F)
-modOut2 <- likelihood2(pMAP,cal=F)
-modOut3 <- likelihood3(pMAP,cal=F)
-modOut4 <- likelihood4(pMAP,cal=F)
-modOut5 <- likelihood5Flux(pMAP,cal=F)
+modOut1 <- likelihood1(parmod,cal=F)
+modOut2 <- likelihood2(parmod,cal=F)
+modOut3 <- likelihood3(parmod,cal=F)
+modOut4 <- likelihood4(parmod,cal=F)
+modOut5 <- likelihood5Flux(parmod,cal=F)
 endX <- Sys.time()
 timeX = endX- startX
 print(timeX)
@@ -65,7 +65,7 @@ print(timeX)
 # parSel <- c(1:18,31:34,38)
 # nparCROB <- length(parSel)
 # initPrebas$pCROBAS[parSel,sp] <- psetNew[1:nparCROB]
-#  
+#
 # startX <- Sys.time()
 # modOut <- multiPrebas(initPrebas)
 # endX <- Sys.time()
@@ -82,7 +82,7 @@ print(timeX)
 # out_Hcnew <- modOut$multiOut[outdata_Hc]
 # out_Dnew <- modOut$multiOut[outdata_D]
 # out_Bnew <- modOut$multiOut[outdata_B] + modOut$multiOut[outdata_B2]
-# 
+#
 # speciesNam <- c("pine","spruce","birch")
 # spVind = outdata_V; spVind[,3] <- 4; spVind[,5] <- 1
 # allData <- data.table(obs = obs_V,sim=out_Vnew,site=outdata_V[,1],species=speciesNam[modOut$multiOut[spVind]],var="V")
@@ -97,17 +97,17 @@ print(timeX)
 # allData[site %in% pgePsites,dataset:="PGEpine"]
 # allData[site %in% pgeSPsites,dataset:="PGEspruce"]
 # allData[site %in% nfisites,dataset:="NFI"]
-# 
+#
 # pdf(file="outCal/outPlots.pdf")
-# pV <- ggplot(allData[var=="V"],aes(x=obs,y=sim,col=species)) + 
+# pV <- ggplot(allData[var=="V"],aes(x=obs,y=sim,col=species)) +
 #   geom_point() + geom_abline() + ggtitle("V")
-# pB <- ggplot(allData[var=="B"],aes(x=obs,y=sim,col=species)) + 
+# pB <- ggplot(allData[var=="B"],aes(x=obs,y=sim,col=species)) +
 #   geom_point() + geom_abline() + ggtitle("B")
-# pD <- ggplot(allData[var=="D"],aes(x=obs,y=sim,col=species)) + 
+# pD <- ggplot(allData[var=="D"],aes(x=obs,y=sim,col=species)) +
 #   geom_point() + geom_abline() + ggtitle("D")
-# pH <- ggplot(allData[var=="H"],aes(x=obs,y=sim,col=species)) + 
+# pH <- ggplot(allData[var=="H"],aes(x=obs,y=sim,col=species)) +
 #   geom_point() + geom_abline() + ggtitle("H")
-# pHc <- ggplot(allData[var=="Hc"],aes(x=obs,y=sim,col=species)) + 
+# pHc <- ggplot(allData[var=="Hc"],aes(x=obs,y=sim,col=species)) +
 #   geom_point() + geom_abline() + ggtitle("Hc")
 # ggarrange(pB,pV,pD,pH,pHc,common.legend = F)
 # print(pV)
@@ -115,8 +115,8 @@ print(timeX)
 # print(pD)
 # print(pH)
 # print(pHc)
-# 
-# 
+#
+#
 # ###pgePIne
 # pV <- ggplot(allData[var=="V" & dataset=="PGEpine"],aes(x=obs,y=sim,col=species)) + 
 #   geom_point() + geom_abline() + ggtitle("V PGEpine")

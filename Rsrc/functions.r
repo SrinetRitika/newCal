@@ -279,18 +279,18 @@ likelihood4 <- function(pValues,cal=T){
   As_s_obs <- vapu_S$Ac
   wf_s_obs <- vapu_S$Wf.1
   Lc_s<-vapu_S$Hc.m
-
+  
   ksi_p <- init_set4$pCROBAS[38,1]
   rhof_p <- init_set4$pCROBAS[15,1]
   z_p <- init_set4$pCROBAS[11,1]
   Wf1_p <- rhof_p*As_p_obs
   Wf2_p <- ksi_p*Lc_p^z_p
   As_p <- ksi_p/rhof_p*Lc_p^z_p
-
+  
   diff_wf1_p <- Wf1_p-wf_p_obs
   diff_wf2_p <- Wf2_p-wf_p_obs
   diff_As_p <- As_p-As_p_obs
-
+  
   Wfsd1 = pValues[a_WfDataind]+pValues[b_WfDataind]*wf_p_obs +pValues[a_Wf1ind]+pValues[b_Wf1ind]*wf_p_obs
   Wfsd2 = pValues[a_WfDataind]+pValues[b_WfDataind]*wf_p_obs +pValues[a_Wf2ind]+pValues[b_Wf2ind]*wf_p_obs
   ll_wf1_p <- sum(Sivia_log(diff_wf1_p,sd = Wfsd1))
@@ -303,17 +303,17 @@ likelihood4 <- function(pValues,cal=T){
   Wf1_s <- rhof_s*As_s_obs
   Wf2_s <- ksi_s*Lc_s^z_s
   As_s <- ksi_s/rhof_s*Lc_s^z_s
-
+  
   diff_wf1_s <- Wf1_s-wf_s_obs
   diff_wf2_s <- Wf2_s-wf_s_obs
   diff_As_s <- As_s-As_s_obs
-      
+  
   Wfsd1 = pValues[a_WfDataind]+pValues[b_WfDataind]*wf_s_obs + pValues[a_Wf1ind]+pValues[b_Wf1ind]*Wf1_s
   Wfsd2 = pValues[a_WfDataind]+pValues[b_WfDataind]*wf_s_obs + pValues[a_Wf2ind]+pValues[b_Wf2ind]*Wf2_s
   ll_wf1_s <- sum(Sivia_log(diff_wf1_s,sd = Wfsd1))
   ll_wf2_s <- sum(Sivia_log(diff_wf2_s,sd = Wfsd2))
   ll_As_s <- sum(Sivia_log(diff_As_s,sd = pValues[a_Acind]+pValues[b_Acind]*As_s_obs))
-             
+  
   ###Normal distribution
   # ll_H <- sum(dnorm(diff_H,sd = pValues[73]+pValues[74]*output[outdata_H],log=T))
   # ll_D <- sum(dnorm(diff_D,sd = pValues[75]+pValues[76]*output[outdata_D],log=T))
@@ -321,7 +321,7 @@ likelihood4 <- function(pValues,cal=T){
   # ll_Hc <- sum(dnorm(diff_Hc,sd = pValues[79]+pValues[80]*output[outdata_Hc],log=T))
   # ll_V <- sum(dnorm(diff_V,sd = pValues[81]+pValues[82]*output[outdata_V],log=T))
   
- loglikelihood <-  sum(ll_H,ll_D,ll_B,ll_Hc,ll_V,ll_wf1_p,ll_wf2_p,ll_As_p,ll_wf1_s,ll_wf2_s,ll_As_s)
+  loglikelihood <-  sum(ll_H,ll_D,ll_B,ll_Hc,ll_V,ll_wf1_p,ll_wf2_p,ll_As_p,ll_wf1_s,ll_wf2_s,ll_As_s)
   
   if(cal==T){
     return(loglikelihood)  
@@ -339,7 +339,7 @@ likelihood4 <- function(pValues,cal=T){
                 simAs_s =As_s,As_s_obs=As_s_obs,
                 
                 output=output
-                ))
+    ))
   }
 }
 
@@ -366,7 +366,7 @@ likelihood <- function(pValues){
 
 # added likelihood function for flux tower sites
 
-likelihood5Flux <- function(pValues,cal=T){####modified
+likelihood5Flux <- function(pValues,cal=T){
   ###init_set5Flux
   init_set5Flux$pPRELES <- pPREL
   init_set5Flux$pPRELES[parSel_PREL] <- pValues[1:nparPREL]
@@ -377,62 +377,86 @@ likelihood5Flux <- function(pValues,cal=T){####modified
   
   PREBASout <- multiPrebas(init_set5Flux)
   
-  llvalues_PREL<-0
-  llvalues_CROB<-0
-  
+  out_GPP<-c()
+  out_ET<-c()
+  out_H<-c()
+  out_D<-c()
+  out_B<-c()
+  out_Hc<-c()
   for(i in 1:init_set5Flux$nSites){
+    ### PRELES
+    predicted<- PREBASout$dailyPRELES[i,,]
     
-    ### likelihood PRELES
-    predictedFlux<- PREBASout$dailyPRELES[i,,]
-    
-    
-    diff_GPPNT <- predictedFlux[indGPP[i,],1][(indGPP[i,]>0)]-flux[indGPP[i,],2,i][(indGPP[i,]>0)]
-    diff_ET <-predictedFlux[indET[i,],2][(indET[i,]>0)]-flux[indET[i,],3,i][(indET[i,]>0)]
-    ll_GPP <- sum(dexp(abs(diff_GPPNT),rate = 1/(pValues[14]+pValues[15]*predictedFlux[indGPP[i,],1][(indGPP[i,]>0)]),log=T))
-    ll_ET <- sum(dexp(abs(diff_ET),rate = 1/(pValues[16]+pValues[17]*predictedFlux[indET[i,],2][(indET[i,]>0)]),log=T))
-    llvalues_PREL <-  sum(llvalues_PREL, ll_GPP, ll_ET)
-    
-    simGPP<-cbind(predictedFlux[indGPP[i,],1][(indGPP[i,]>0)])
-    obsGPP<-cbind(flux[indGPP[i,],2,i][(indGPP[i,]>0)])
-    simET<-cbind(predictedFlux[indET[i,],2][(indET[i,]>0)])
-    obsET<-cbind(flux[indET[i,],3,i][(indET[i,]>0)])
+    out_GPP<-c(out_GPP, predicted[,1])
+    out_ET<-c(out_ET, predicted[,2])
     
     #### identify the output in the array
-    dim.H<-cbind(rep(1:init_set5Flux$nYears[i], each=init_set5Flux$nLayers[i]),11,rep(1:init_set5Flux$nLayers[i],init_set5Flux$nYears[i]),1)
-    dim.D<-cbind(rep(1:init_set5Flux$nYears[i], each=init_set5Flux$nLayers[i]),12,rep(1:init_set5Flux$nLayers[i],init_set5Flux$nYears[i]),1)
-    dim.B<-cbind(rep(1:init_set5Flux$nYears[i], each=init_set5Flux$nLayers[i]),13,rep(1:init_set5Flux$nLayers[i],init_set5Flux$nYears[i]),1)
-    dim.Hc<-cbind(rep(1:init_set5Flux$nYears[i], each=init_set5Flux$nLayers[i]),14,rep(1:init_set5Flux$nLayers[i],init_set5Flux$nYears[i]),1)
+    dim.H<-cbind(age=rep(1:init_set5Flux$nYears[i], init_set5Flux$nLayers[i]),nvar=11,layerID=rep(1:init_set5Flux$nLayers[i], each=init_set5Flux$nYears[i]),1)
+    dim.D<-cbind(age=rep(1:init_set5Flux$nYears[i], init_set5Flux$nLayers[i]),nvar=12,layerID=rep(1:init_set5Flux$nLayers[i], each=init_set5Flux$nYears[i]),1)
+    dim.B<-cbind(age=rep(1:init_set5Flux$nYears[i], init_set5Flux$nLayers[i]),nvar=13,layerID=rep(1:init_set5Flux$nLayers[i], each=init_set5Flux$nYears[i]),1)
+    dim.Hc<-cbind(age=rep(1:init_set5Flux$nYears[i], init_set5Flux$nLayers[i]),nvar=14,layerID=rep(1:init_set5Flux$nLayers[i], each=init_set5Flux$nYears[i]),1)
     
-    ### likelihood CROBAS
+    ### CROBAS
     output<-PREBASout$multiOut[i,,,,]
-    diff_H <- output[dim.H][(indH[i,]>0)]-obsInv[indH[i,],3,i][(indH[i,]>0)]
-    diff_D <- output[dim.D][(indD[i,]>0)]-obsInv[indD[i,],4,i][(indD[i,]>0)]
-    diff_B <- output[dim.B][(indBA[i,]>0)]-obsInv[indBA[i,],5,i][(indBA[i,]>0)]
-    diff_Hc <- output[dim.Hc][(indHc[i,]>0)]-obsInv[indHc[i,],6,i][(indHc[i,]>0)]
     
-    simH<-cbind(output[dim.H][(indH[i,]>0)])
-    simD<-cbind(output[dim.D][(indD[i,]>0)])
-    simB<-cbind(output[dim.B][(indBA[i,]>0)])
-    simHc<-cbind(output[dim.Hc][(indHc[i,]>0)])
-    obsH<-cbind(obsInv[indH[i,],3,i][(indH[i,]>0)])
-    obsD<-cbind(obsInv[indD[i,],4,i][(indD[i,]>0)])
-    obsB<-cbind(obsInv[indBA[i,],5,i][(indBA[i,]>0)])
-    obsHc<-cbind(obsInv[indHc[i,],6,i][(indHc[i,]>0)])
-    
-    ll_H <- sum(Sivia_log(diff_H,sd = pValues[nparPREL+(nparCROB*3)+1]+pValues[nparPREL+(nparCROB*3)+2]*output[dim.H][(indH[i,]>0)]))
-    ll_D <- sum(Sivia_log(diff_D,sd = pValues[nparPREL+(nparCROB*3)+3]+pValues[nparPREL+(nparCROB*3)+4]*output[dim.D][(indD[i,]>0)]))
-    ll_B <- sum(Sivia_log(diff_B,sd = pValues[nparPREL+(nparCROB*3)+5]+pValues[nparPREL+(nparCROB*3)+6]*output[dim.B][(indBA[i,]>0)]))
-    ll_Hc <- sum(Sivia_log(diff_Hc,sd = pValues[nparPREL+(nparCROB*3)+7]+pValues[nparPREL+(nparCROB*3)+8]*output[dim.Hc][(indHc[i,]>0)]))
-    
-    llvalues_CROB <-  sum(llvalues_CROB,ll_H,ll_D,ll_B,ll_Hc)
+    out_H<-c(out_H,output[dim.H])
+    out_D<-c(out_D,output[dim.D])
+    out_B<-c(out_B,output[dim.B])
+    out_Hc<-c(out_Hc,output[dim.Hc])
   }
   
-  loglikelihoodFlux <-  sum(llvalues_CROB + llvalues_PREL) ##!!for Ritika
+  ### likelihood PRELES
+  diff_GPP <- out_GPP[c(GPPdata_s5$outData[,2])]-GPPdata_s5$obs[c(GPPdata_s5$outData[,2])]
+  diff_ET <- out_ET[c(ETdata_s5$outData[,2])]-ETdata_s5$obs[c(ETdata_s5$outData[,2])]
+  
+  ll_GPP <- sum(dexp(abs(diff_GPP),rate = 1/(pValues[14]+pValues[15]*out_GPP[c(GPPdata_s5$outData[,2])]),log=T))
+  ll_ET <- sum(dexp(abs(diff_ET),rate = 1/(pValues[16]+pValues[17]*out_ET[c(ETdata_s5$outData[,2])]),log=T))
+  
+  ### likelihood CROBAS
+  diff_H <- out_H[(which(is.na(Hdata_s5$obs)==F))]-Hdata_s5$obs[(which(is.na(Hdata_s5$obs)==F))]
+  diff_D <- out_D[(which(is.na(Ddata_s5$obs)==F))]-Ddata_s5$obs[(which(is.na(Ddata_s5$obs)==F))]
+  diff_B <- out_B[(which(is.na(Bdata_s5$obs)==F))]-Bdata_s5$obs[(which(is.na(Bdata_s5$obs)==F))]
+  diff_Hc <- out_Hc[(which(is.na(Hcdata_s5$obs)==F))]-Hcdata_s5$obs[(which(is.na(Hcdata_s5$obs)==F))]
+  
+  ll_H <- sum(Sivia_log(diff_H,sd = pValues[nparPREL+(nparCROB*3)+1]+pValues[nparPREL+(nparCROB*3)+2]*out_H[(which(is.na(Hdata_s5$obs)==F))]))
+  ll_D <- sum(Sivia_log(diff_D,sd = pValues[nparPREL+(nparCROB*3)+3]+pValues[nparPREL+(nparCROB*3)+4]*out_D[(which(is.na(Ddata_s5$obs)==F))]))
+  ll_B <- sum(Sivia_log(diff_B,sd = pValues[nparPREL+(nparCROB*3)+5]+pValues[nparPREL+(nparCROB*3)+6]*out_B[(which(is.na(Bdata_s5$obs)==F))]))
+  ll_Hc <- sum(Sivia_log(diff_Hc,sd = pValues[nparPREL+(nparCROB*3)+7]+pValues[nparPREL+(nparCROB*3)+8]*out_Hc[(which(is.na(Hcdata_s5$obs)==F))]))
+  
+  ### likelihood flux
+  loglikelihoodFlux <- sum(ll_GPP,ll_ET,ll_H,ll_D,ll_B,ll_Hc)
+  
   
   if(cal==T){
     return(loglikelihoodFlux)  
   }else{
-    return(list(simGPP, simET, simH, simD, simB, simHc,
-                obsGPP, obsET, obsH, obsD, obsB, obsHc))
+    return(list(simGPP=out_GPP[c(GPPdata_s5$outData[,2])], 
+                simET=out_ET[c(ETdata_s5$outData[,2])],
+                simH=out_H, 
+                simD=out_D, 
+                simB=out_B, 
+                simHc=out_Hc,
+                obsGPP=GPPdata_s5$obs[c(GPPdata_s5$outData[,2])], 
+                obsET=ETdata_s5$obs[c(ETdata_s5$outData[,2])], 
+                obsH=Hdata_s5$obs, 
+                obsD=Ddata_s5$obs, 
+                obsB=Bdata_s5$obs, 
+                obsHc=Hcdata_s5$obs,
+                outPREL=PREBASout$dailyPRELES,
+                output=PREBASout$multiOut))
   }
+}
+
+extractSpecies <- function(dataX,modOut){
+  modOut$output[,,4,,2] <- modOut$output[,,4,,1]
+  spInd <- dataX$outData
+  spInd[,3] <- 4
+  species <- modOut$output[spInd]
+  return(species)
+}
+extractSite <- function(dataX,modOut){
+  stInd <- dataX$outData
+  stInd[,3] <- 1
+  sites <- modOut$output[stInd]
+  return(sites)
 }
