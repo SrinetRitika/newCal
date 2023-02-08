@@ -8,7 +8,12 @@ library(BayesianTools)
 library(coda)
 # library(lhs)
 
-devtools::install_github("ForModLabUHel/Rprebasso", ref="master")
+###load data for initialization
+if(newV){
+  devtools::install_github("ForModLabUHel/Rprebasso", ref="newVersion")
+}else{
+  devtools::install_github("ForModLabUHel/Rprebasso", ref="master")
+}
 library(Rprebasso)
 
 if(vLocal){
@@ -20,11 +25,24 @@ if(vLocal){
 devtools::source_url("https://raw.githubusercontent.com/ForModLabUHel/newCal/master/Rsrc/functions.r")
 devtools::source_url("https://raw.githubusercontent.com/ForModLabUHel/newCal/master/Rsrc/settings.r")
 
-###load data for initialization
-load(url('https://raw.githubusercontent.com/ForModLabUHel/newCal/master/inputs/init_set1.rdata'))
-load(url('https://raw.githubusercontent.com/ForModLabUHel/newCal/master/inputs/init_set2.rdata'))
-load(url('https://raw.githubusercontent.com/ForModLabUHel/newCal/master/inputs/init_set3.rdata'))
-load(url('https://raw.githubusercontent.com/ForModLabUHel/newCal/master/inputs/init_set4.rdata'))
+# ###load data for initialization
+# load(url('https://raw.githubusercontent.com/ForModLabUHel/newCal/master/inputs/init_set1.rdata'))
+# load(url('https://raw.githubusercontent.com/ForModLabUHel/newCal/master/inputs/init_set2.rdata'))
+# load(url('https://raw.githubusercontent.com/ForModLabUHel/newCal/master/inputs/init_set3.rdata'))
+# load(url('https://raw.githubusercontent.com/ForModLabUHel/newCal/master/inputs/init_set4.rdata'))
+if(newV){
+  load('inputs/init_set1_newVersion.rdata')
+  load('inputs/init_set2_newVersion.rdata')
+  load('inputs/init_set3_newVersion.rdata')
+  load('inputs/init_set4_newVersion.rdata')
+  load('inputs/init_set5Flux_newVersion.rdata')
+}else{
+  load('inputs/init_set1.rdata')
+  load('inputs/init_set2.rdata')
+  load('inputs/init_set3.rdata')
+  load('inputs/init_set4.rdata')
+  load('inputs/init_set5Flux.rdata')
+}
 
 vapu_S<-read.csv(url('https://raw.githubusercontent.com/ForModLabUHel/newCal/master/inputs/VAPU_spruce.csv'))
 nData_S <- length(vapu_S$plotNo)
