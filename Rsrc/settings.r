@@ -3,6 +3,7 @@ if(!exists("vLocal")) vLocal <- FALSE
 
 if(!exists("fX")) fX <- 2.38  ###parameter of DEzs algorithm
 if(!exists("calAlg")) calAlg <- "DEzs"  ###MC algorithm
+if(!exists("nworkers")) nworkers <- 5  ###number of corse
   
 ###siteIDs used in the different calibration sets
 set1 <- 1:300

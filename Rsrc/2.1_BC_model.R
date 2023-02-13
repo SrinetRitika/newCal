@@ -55,7 +55,7 @@ nData_P <- length(vapu_P$plot)
 if(vLocal){
   bayesianSetup <- createBayesianSetup(likelihood = likelihood,
                                        lower = parmin, upper = parmax,names = parnam,
-                                       parallel = 5)
+                                       parallel = nworkers)
 }else{
   bayesianSetup <- createBayesianSetup(likelihood = likelihood,
                                        lower = parmin, upper = parmax,
