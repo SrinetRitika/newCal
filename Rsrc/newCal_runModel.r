@@ -15,6 +15,10 @@ library(ggpmisc)
 library(broom)
 
 #2# install package if needed
+library(devtools)
+#remove.packages("Rprebasso")
+vPREB <- "newVersion"
+devtools::install_github("ForModLabUHel/Rprebasso", ref=vPREB)
 #devtools::install_github("ForModLabUHel/Rprebasso")
 library(Rprebasso)
 

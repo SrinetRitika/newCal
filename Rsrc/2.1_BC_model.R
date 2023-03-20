@@ -8,7 +8,12 @@ library(BayesianTools)
 library(coda)
 # library(lhs)
 
-devtools::install_github("ForModLabUHel/Rprebasso", ref="master")
+###load data for initialization
+if(newV){
+  devtools::install_github("ForModLabUHel/Rprebasso", ref="newVersion")
+}else{
+  devtools::install_github("ForModLabUHel/Rprebasso", ref="master")
+}
 library(Rprebasso)
 
 if(vLocal){
@@ -69,11 +74,11 @@ if(calSet == 0){
   ####continue calibration
   load(lastCal)
   startValue <- calOut$X
-
+  
   settings = list(iterations = iters, startValue = startValue,
                   burnin=0,message=FALSE)
   
   calOut <- runMCMC(bayesianSetup = bayesianSetup,
-                   sampler = calAlg, settings = settings)
+                    sampler = calAlg, settings = settings)
 }
 save(calOut,file=newCal)
