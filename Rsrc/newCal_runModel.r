@@ -4,17 +4,20 @@ if(!vLocal){
   .libPaths(c("/scratch/project_2000994/project_rpackages", .libPaths()))
 }
 #1#
-
 library(ggplot2)
 library(Metrics)
 library(data.table)
-#library(Rprebasso)
 library(BayesianTools)
 library(ggpubr)
 library(dplyr)
 library(ggpmisc)
 library(broom)
+
 #2# install package if needed
+library(devtools)
+#remove.packages("Rprebasso")
+vPREB <- "newVersion"
+devtools::install_github("ForModLabUHel/Rprebasso", ref=vPREB)
 #devtools::install_github("ForModLabUHel/Rprebasso")
 library(Rprebasso)
 
