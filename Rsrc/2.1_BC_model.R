@@ -62,11 +62,11 @@ if(calSet == 0){
   startValue[1,] <- runif(npar,parmin,parmax)
   startValue[2,] <- runif(npar,parmin,parmax)
   startValue[3,] <- runif(npar,parmin,parmax)
-  startValue[1,1:(nparPREL-4)] <- c(parmod[1:(nparPREL-4)])
+  startValue[1,1:nparPREL] <- c(parmod[1:nparPREL])
   startValue[1,(nparPREL+1):(nparPREL+(nparCROB*3))] <- c(parmod[(nparPREL+1):(nparPREL+(nparCROB*3))])
   
   settings = list(iterations = iters, f=fX, 
-                  startValue = startValue,message=FALSE)
+                  startValue = startValue, message=FALSE)
   
   calOut <- runMCMC(bayesianSetup = bayesianSetup, 
                     sampler = calAlg, settings = settings)

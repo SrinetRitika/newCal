@@ -1,13 +1,13 @@
 #1# specify packages folder if you are on puhti
-vLocal <- TRUE
-newV=T
+vLocal <- FALSE
+newV=F
 if(!vLocal){
   .libPaths(c("/scratch/project_2000994/project_rpackages", .libPaths()))
 }
 #1#
 
 library(ggplot2)
-library(Metrics)
+# library(Metrics)
 library(data.table)
 library(BayesianTools)
 library(ggpubr)
@@ -16,11 +16,11 @@ library(ggpmisc)
 library(broom)
 
 #2# install package if needed
-#library(devtools)
-#remove.packages("Rprebasso")
-# vPREB <- "newVersion"
-# devtools::install_github("ForModLabUHel/Rprebasso", ref=vPREB)
-# devtools::install_github("ForModLabUHel/Rprebasso")
+if(newV){
+  devtools::install_github("ForModLabUHel/Rprebasso", ref="newVersion")
+}else{
+  devtools::install_github("ForModLabUHel/Rprebasso", ref="master")
+}
 library(Rprebasso)
 
 #3# setting working directory
@@ -28,12 +28,12 @@ if(vLocal){
   #you need to change this if you want to work on your local machine
   setwd("Z:/PREBAS_calibration/newCal")
 }else{
-  setwd("/scratch/project_2000994/calibrations/newCal/")
+  setwd("/scratch/project_2000994/calibrations/srinet/newCal")
 }
 
 ###loading functions and settings
-source('Rsrc/functions.r')
-source('Rsrc/settings.r')
+source("Rsrc/functions.r")
+source("Rsrc/settings.r")
 source("https://raw.github.com/ForModLabUHel/utilStuff/master/ErrorDecomposition/ErrorDecomposition.R")
 ## Warning: unsupported URL scheme
 ###load data for initialization
@@ -48,7 +48,7 @@ if(newV){
   load('inputs/init_set2.rdata')
   load('inputs/init_set3.rdata')
   load('inputs/init_set4.rdata')
-  load('inputs/init_set5Flux.rdata')
+  load('inputs/init_set5Flux.RData')
 }
 
 vapu_S<-read.csv(url('https://raw.githubusercontent.com/ForModLabUHel/newCal/master/inputs/VAPU_spruce.csv'))
