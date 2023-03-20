@@ -358,11 +358,9 @@ likelihood <- function(pValues){
   logLike <- mclapply(sets, function(jx) {
     likelihoods[[jx]](pValues)  
   }, mc.cores = nCores)  
-  llP <- sum(unlist(logLike ))
+  llP <- sum(unlist(logLike))
   return(llP)
 }
-
-
 
 # added likelihood function for flux tower sites
 
