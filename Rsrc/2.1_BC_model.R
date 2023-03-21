@@ -33,11 +33,11 @@ if(newV){
   load(url('https://raw.githubusercontent.com/ForModLabUHel/newCal/master/inputs/init_set4_newVersion.rdata'))
   load(url('https://raw.githubusercontent.com/ForModLabUHel/newCal/master/inputs/init_set5Flux_newVersion.rdata'))
 }else{
-  load(url('https://raw.githubusercontent.com/ForModLabUHel/newCal/master/inputs/init_set1.rdata'))
-  load(url('https://raw.githubusercontent.com/ForModLabUHel/newCal/master/inputs/init_set2.rdata'))
-  load(url('https://raw.githubusercontent.com/ForModLabUHel/newCal/master/inputs/init_set3.rdata'))
-  load(url('https://raw.githubusercontent.com/ForModLabUHel/newCal/master/inputs/init_set4.rdata'))
-  load(url('https://raw.githubusercontent.com/ForModLabUHel/newCal/master/inputs/init_set5Flux.RData'))
+  load('inputs/init_set1.rdata')
+  load('inputs/init_set2.rdata')
+  load('inputs/init_set3.rdata')
+  load('inputs/init_set4.rdata')
+  load('inputs/init_set5Flux.RData')
 }
 
 vapu_S<-read.csv(url('https://raw.githubusercontent.com/ForModLabUHel/newCal/master/inputs/VAPU_spruce.csv'))
