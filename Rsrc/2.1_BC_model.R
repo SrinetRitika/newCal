@@ -28,11 +28,11 @@ if(newV){
   load(url('https://raw.githubusercontent.com/ForModLabUHel/newCal/master/inputs/init_set4_newVersion.rdata'))
   load(url('https://raw.githubusercontent.com/ForModLabUHel/newCal/master/inputs/init_set5Flux_newVersion.rdata'))
 }else{
-  load(url('https://raw.githubusercontent.com/ForModLabUHel/newCal/master/inputs/init_set1.rdata'))
-  load(url('https://raw.githubusercontent.com/ForModLabUHel/newCal/master/inputs/init_set2.rdata'))
-  load(url('https://raw.githubusercontent.com/ForModLabUHel/newCal/master/inputs/init_set3.rdata'))
-  load(url('https://raw.githubusercontent.com/ForModLabUHel/newCal/master/inputs/init_set4.rdata'))
-  load(url('https://raw.githubusercontent.com/ForModLabUHel/newCal/master/inputs/init_set5Flux.RData'))
+  load('inputs/init_set1.rdata')
+  load('inputs/init_set2.rdata')
+  load('inputs/init_set3.rdata')
+  load('inputs/init_set4.rdata')
+  load('inputs/init_set5Flux.RData')
 }
 
 vapu_S<-read.csv(url('https://raw.githubusercontent.com/ForModLabUHel/newCal/master/inputs/VAPU_spruce.csv'))
@@ -57,11 +57,11 @@ if(calSet == 0){
   startValue[1,] <- runif(npar,parmin,parmax)
   startValue[2,] <- runif(npar,parmin,parmax)
   startValue[3,] <- runif(npar,parmin,parmax)
-  startValue[1,1:(nparPREL-4)] <- c(parmod[1:(nparPREL-4)])
+  startValue[1,1:nparPREL] <- c(parmod[1:nparPREL])
   startValue[1,(nparPREL+1):(nparPREL+(nparCROB*3))] <- c(parmod[(nparPREL+1):(nparPREL+(nparCROB*3))])
   
   settings = list(iterations = iters, f=fX, 
-                  startValue = startValue,message=FALSE)
+                  startValue = startValue, message=FALSE)
   
   calOut <- runMCMC(bayesianSetup = bayesianSetup, 
                     sampler = calAlg, settings = settings)
