@@ -390,7 +390,6 @@ likelihood5Flux <- function(pValues,cal=T){
     out_ET<-c(out_ET, predicted[,2])
     
     #### identify the output in the array
-    dim.GPPyr<-cbind(age=rep(1:init_set5Flux$nYears[i], init_set5Flux$nLayers[i]),nvar=10,layerID=rep(1:init_set5Flux$nLayers[i], each=init_set5Flux$nYears[i]),1)
     dim.H<-cbind(age=rep(1:init_set5Flux$nYears[i], init_set5Flux$nLayers[i]),nvar=11,layerID=rep(1:init_set5Flux$nLayers[i], each=init_set5Flux$nYears[i]),1)
     dim.D<-cbind(age=rep(1:init_set5Flux$nYears[i], init_set5Flux$nLayers[i]),nvar=12,layerID=rep(1:init_set5Flux$nLayers[i], each=init_set5Flux$nYears[i]),1)
     dim.B<-cbind(age=rep(1:init_set5Flux$nYears[i], init_set5Flux$nLayers[i]),nvar=13,layerID=rep(1:init_set5Flux$nLayers[i], each=init_set5Flux$nYears[i]),1)
@@ -399,7 +398,7 @@ likelihood5Flux <- function(pValues,cal=T){
     ### CROBAS
     output<-PREBASout$multiOut[i,,,,]
     
-    out_GPPyr<-c(out_GPPyr,output[dim.GPPyr])
+    out_GPPyr<-c(out_GPPyr,output[,10,1,1])
     out_H<-c(out_H,output[dim.H])
     out_D<-c(out_D,output[dim.D])
     out_B<-c(out_B,output[dim.B])
