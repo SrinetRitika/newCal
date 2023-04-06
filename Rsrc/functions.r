@@ -364,7 +364,7 @@ likelihood <- function(pValues){
 # added likelihood function for flux tower sites
 
 likelihood5Flux <- function(pValues,cal=T){
-    ###init_set5Flux
+  ###init_set5Flux
   init_set5Flux$pPRELES <- pPREL
   init_set5Flux$pPRELES[parSel_PREL[1:13]] <- pValues[1:(nparPREL-4)]
   init_set5Flux$pCROBAS <- pCROB
@@ -396,10 +396,6 @@ likelihood5Flux <- function(pValues,cal=T){
     ### CROBAS
     output<-PREBASout$multiOut[i,,,,]
     
-<<<<<<< HEAD
-=======
-    out_GPPyr<-c(out_GPPyr,output[,10,1,1])
->>>>>>> 8db9104a02a252af5ff7bd1487706fea9dc345d0
     out_H<-c(out_H,output[dim.H])
     out_D<-c(out_D,output[dim.D])
     out_B<-c(out_B,output[dim.B])
