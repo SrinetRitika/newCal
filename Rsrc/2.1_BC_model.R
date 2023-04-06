@@ -8,12 +8,7 @@ library(BayesianTools)
 library(coda)
 # library(lhs)
 
-###load data for initialization
-if(newV){
-  devtools::install_github("ForModLabUHel/Rprebasso", ref="newVersion")
-}else{
-  devtools::install_github("ForModLabUHel/Rprebasso", ref="master")
-}
+devtools::install_github("ForModLabUHel/Rprebasso", ref="master")
 library(Rprebasso)
 
 if(vLocal){

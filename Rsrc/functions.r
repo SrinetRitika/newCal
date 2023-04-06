@@ -396,6 +396,10 @@ likelihood5Flux <- function(pValues,cal=T){
     ### CROBAS
     output<-PREBASout$multiOut[i,,,,]
     
+<<<<<<< HEAD
+=======
+    out_GPPyr<-c(out_GPPyr,output[,10,1,1])
+>>>>>>> 8db9104a02a252af5ff7bd1487706fea9dc345d0
     out_H<-c(out_H,output[dim.H])
     out_D<-c(out_D,output[dim.D])
     out_B<-c(out_B,output[dim.B])
