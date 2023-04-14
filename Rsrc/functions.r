@@ -346,7 +346,7 @@ likelihood4 <- function(pValues,cal=T){
 ##Sivia likelihood
 Sivia_log<-function(diff,sd){
   # sd[which(sd<=0)]<-11e-6e-6
-  # diff[which(abs(diff)<=1e-6)]<-1e-6
+  # diff[which(abs(diff)<=1e-6)] <- 1e-6
   diff[which(abs(diff)<=1e-6)]<-1e-4
   R2<-(diff/sd)^2
   prob<-1/(sd*(pi*2)^0.5)*(1-exp(-R2/2))/R2
@@ -376,7 +376,6 @@ likelihood5Flux <- function(pValues,cal=T){
   
   out_GPP<-c()
   out_ET<-c()
-  out_GPPyr<-c()
   out_H<-c()
   out_D<-c()
   out_B<-c()
@@ -432,7 +431,6 @@ likelihood5Flux <- function(pValues,cal=T){
   }else{
     return(list(simGPP_day=out_GPP[c(GPPdata_s5$outData[,2])], 
                 simET=out_ET[c(ETdata_s5$outData[,2])],
-                simGPPyr=out_GPPyr,
                 simH=out_H, 
                 simD=out_D, 
                 simB=out_B, 

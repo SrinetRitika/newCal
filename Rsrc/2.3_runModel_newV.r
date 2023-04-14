@@ -17,11 +17,11 @@ library(broom)
 
 #2# install package if needed
 # remove.packages("Rprebasso")
-# if(newV){
-#   devtools::install_github("ForModLabUHel/Rprebasso", ref="newVersion")
-# }else{
-#   devtools::install_github("ForModLabUHel/Rprebasso", ref="master")
-# }
+if(newV){
+  devtools::install_github("ForModLabUHel/Rprebasso", ref="newVersion")
+}else{
+  devtools::install_github("ForModLabUHel/Rprebasso", ref="master")
+}
 library(Rprebasso)
 
 #3# setting working directory
@@ -77,10 +77,11 @@ endX <- Sys.time()
 timeX = endX- startX
 print(timeX)
 
-gpp_annual<-read.csv("inputs/gpp_annual.csv")
+#gpp_annual<-read.csv("inputs/gpp_annual.csv")
 
 speciesNam <- c("pine","spruce","birch")
 fsiteNam<-c("Värriö","Lettosuo_bfThin", "Lettosuo_afThin","Sodankylä", "Hyytiälä")
+
 
 allData <- data.table(obs = modOut1$obsV,sim=modOut1$simV,cal_set='set 1',var="V", speciesID=speciesNam[extractSpecies(Vdata_s1,modOut1)], siteID = extractSite(Vdata_s1,modOut1))
 allData <- rbind(allData, data.table(obs = modOut2$obsV,sim=modOut2$simV,cal_set='set 2',var="V",speciesNam[extractSpecies(Vdata_s2,modOut2)], extractSite(Vdata_s2,modOut2)), use.names=FALSE)
@@ -122,6 +123,7 @@ allData <- rbind(allData, data.table(obs = modOut5$obsGPP_day,sim=modOut5$simGPP
 allData <- rbind(allData, data.table(obs = modOut5$obsET,sim=modOut5$simET,cal_set='set 5',var="ET","all",fsiteNam[ETdata_s5$outData[,1]]), use.names=FALSE)
 
 allData <- rbind(allData, data.table(obs = gpp_annual$GPPobs,sim=(modOut5$simGPPyr*1000),cal_set='set 5',var="GPP_yr","all",fsiteNam[gpp_annual$siteID]), use.names=FALSE)
+
 
 allData<-na.omit(allData)
 # allData_master<-allData
@@ -177,7 +179,8 @@ calc_residF<- function(df){
 }
 
 # pdf(file="out/output_3sites.pdf")
-# 
+
+ 
 ### MASTER VERSION -- OBSERVED VS. PREDICTED
 pV_o <- ggplot(allData_master[var=="V"],aes(x=obs,y=sim,col=speciesID)) +
   geom_point() + geom_abline() + ggtitle("V - current version\nactual pValues\n")+

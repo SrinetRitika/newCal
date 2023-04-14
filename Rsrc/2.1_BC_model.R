@@ -8,7 +8,12 @@ library(BayesianTools)
 library(coda)
 # library(lhs)
 
-devtools::install_github("ForModLabUHel/Rprebasso", ref="master")
+###load data for initialization
+if(newV){
+  devtools::install_github("ForModLabUHel/Rprebasso", ref="newVersion")
+}else{
+  devtools::install_github("ForModLabUHel/Rprebasso", ref="master")
+}
 library(Rprebasso)
 
 if(vLocal){
@@ -22,11 +27,11 @@ source("Rsrc/settings.r")
 
 ###load data for initialization
 if(newV){
-  load(url('https://raw.githubusercontent.com/ForModLabUHel/newCal/master/inputs/init_set1_newVersion.rdata'))
-  load(url('https://raw.githubusercontent.com/ForModLabUHel/newCal/master/inputs/init_set2_newVersion.rdata'))
-  load(url('https://raw.githubusercontent.com/ForModLabUHel/newCal/master/inputs/init_set3_newVersion.rdata'))
-  load(url('https://raw.githubusercontent.com/ForModLabUHel/newCal/master/inputs/init_set4_newVersion.rdata'))
-  load(url('https://raw.githubusercontent.com/ForModLabUHel/newCal/master/inputs/init_set5Flux_newVersion.rdata'))
+  load('inputs/init_set1_newVersion.rdata')
+  load('inputs/init_set2_newVersion.rdata')
+  load('inputs/init_set3_newVersion.rdata')
+  load('inputs/init_set4_newVersion.rdata')
+  load('inputs/init_set5Flux_newVersion.rdata')
 }else{
   load('inputs/init_set1.rdata')
   load('inputs/init_set2.rdata')
@@ -54,9 +59,9 @@ if(!vLocal){
 if(calSet == 0){
   startValue <- matrix(NA,3,npar)
   startValue[1,] <- runif(npar,parmin,parmax)
-  startValue[2,] <- runif(npar,parmin,parmax)
+  startValue[2,] <- runif(npar,parmin,parmax) 
   startValue[3,] <- runif(npar,parmin,parmax)
-  startValue[1,1:nparPREL] <- c(parmod[1:nparPREL])
+  startValue[1,1:(nparPREL-4)] <- c(parmod[1:(nparPREL-4)])
   startValue[1,(nparPREL+1):(nparPREL+(nparCROB*3))] <- c(parmod[(nparPREL+1):(nparPREL+(nparCROB*3))])
   
   settings = list(iterations = iters, f=fX, 
