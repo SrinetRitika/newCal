@@ -1,5 +1,5 @@
 #1# specify packages folder if you are on puhti
-vLocal <- FALSE
+vLocal <- T
 newV=F
 if(!vLocal){
   .libPaths(c("/scratch/project_2000994/project_rpackages", .libPaths()))
@@ -7,7 +7,7 @@ if(!vLocal){
 #1#
 
 library(ggplot2)
-# library(Metrics)
+library(Metrics)
 library(data.table)
 library(BayesianTools)
 library(ggpubr)
@@ -16,17 +16,18 @@ library(ggpmisc)
 library(broom)
 
 #2# install package if needed
-if(newV){
-  devtools::install_github("ForModLabUHel/Rprebasso", ref="newVersion")
-}else{
-  devtools::install_github("ForModLabUHel/Rprebasso", ref="master")
-}
+# remove.packages("Rprebasso")
+# if(newV){
+#   devtools::install_github("ForModLabUHel/Rprebasso", ref="newVersion")
+# }else{
+#   devtools::install_github("ForModLabUHel/Rprebasso", ref="master")
+# }
 library(Rprebasso)
 
 #3# setting working directory
 if(vLocal){
   #you need to change this if you want to work on your local machine
-  setwd("Z:/PREBAS_calibration/newCal")
+  setwd("C:/Users/srinetri/research/PREBAS_calibration/newCal")
 }else{
   setwd("/scratch/project_2000994/calibrations/srinet/newCal")
 }
@@ -48,7 +49,7 @@ if(newV){
   load('inputs/init_set2.rdata')
   load('inputs/init_set3.rdata')
   load('inputs/init_set4.rdata')
-  load('inputs/init_set5Flux.RData')
+  load('inputs/init_set5Flux_4sites.rdata')
 }
 
 vapu_S<-read.csv(url('https://raw.githubusercontent.com/ForModLabUHel/newCal/master/inputs/VAPU_spruce.csv'))
@@ -79,7 +80,7 @@ print(timeX)
 gpp_annual<-read.csv("inputs/gpp_annual.csv")
 
 speciesNam <- c("pine","spruce","birch")
-fsiteNam<-c("Värriö","Lettosuo")
+fsiteNam<-c("Värriö","Lettosuo_bfThin", "Lettosuo_afThin","Sodankylä", "Hyytiälä")
 
 allData <- data.table(obs = modOut1$obsV,sim=modOut1$simV,cal_set='set 1',var="V", speciesID=speciesNam[extractSpecies(Vdata_s1,modOut1)], siteID = extractSite(Vdata_s1,modOut1))
 allData <- rbind(allData, data.table(obs = modOut2$obsV,sim=modOut2$simV,cal_set='set 2',var="V",speciesNam[extractSpecies(Vdata_s2,modOut2)], extractSite(Vdata_s2,modOut2)), use.names=FALSE)
@@ -120,7 +121,7 @@ allData <- rbind(allData, data.table(obs = modOut4$As_s_obs,sim=modOut4$simAs_s,
 allData <- rbind(allData, data.table(obs = modOut5$obsGPP_day,sim=modOut5$simGPP_day,cal_set='set 5',var="GPP","all",fsiteNam[GPPdata_s5$outData[,1]]), use.names=FALSE)
 allData <- rbind(allData, data.table(obs = modOut5$obsET,sim=modOut5$simET,cal_set='set 5',var="ET","all",fsiteNam[ETdata_s5$outData[,1]]), use.names=FALSE)
 
-allData <- rbind(allData, data.table(obs = gpp_annual$GPPobs,sim=modOut5$simGPP_yr,cal_set='set 5',var="GPP_yr","all",fsiteNam[gpp_annual$siteID]), use.names=FALSE)
+allData <- rbind(allData, data.table(obs = gpp_annual$GPPobs,sim=(modOut5$simGPPyr*1000),cal_set='set 5',var="GPP_yr","all",fsiteNam[gpp_annual$siteID]), use.names=FALSE)
 
 allData<-na.omit(allData)
 # allData_master<-allData
@@ -175,122 +176,122 @@ calc_residF<- function(df){
   return(r)
 }
 
-# pdf(file="out/output_all_compare1.pdf")
+# pdf(file="out/output_3sites.pdf")
 # 
-# ### MASTER VERSION -- OBSERVED VS. PREDICTED
-# pV_o <- ggplot(allData_master[var=="V"],aes(x=obs,y=sim,col=speciesID)) +
-#   geom_point() + geom_abline() + ggtitle("V - current version\nactual pValues\n")+
-#   theme(plot.title = element_text(size=10)) +
-#   geom_text(data=r2_rmse(allData_master[var=="V"]), aes(x=-Inf,y=+Inf,label=label),
-#             hjust = 0, vjust = c(2,4,6), size=3) + ylim(0, 800)
-# # pV_res<-ggplot(calc_resid(allData_master[var=="V"]),aes(x=obs,y=sim,col=speciesID)) +
-# #   geom_smooth(method = "lm", se = FALSE) +
-# #   geom_segment(aes(xend = obs, yend = .fitted)) +
-# #   geom_point()
-# pV_res_o <- ggplot(calc_resid(allData_master[var=="V"]), aes(x = .fitted, y = .resid, col=speciesID)) +
-#   geom_point() + geom_hline(yintercept = 0) +
-#   theme(plot.title = element_text(size=10)) +
-#   labs(title='V - current version:\nactual pValues\nResidual vs. Fitted Values Plot', x='Fitted Values', y='Residuals')
-# 
-# pB_o <- ggplot(allData_master[var=="B"],aes(x=obs,y=sim,col=speciesID)) +
-#   geom_point() + geom_abline() + ggtitle("B - current version\nactual pValues\n")+
-#   theme(plot.title = element_text(size=10)) +
-#   geom_text(data=r2_rmse(allData_master[var=="B"]), aes(x=-Inf,y=+Inf,label=label),
-#             hjust = 0, vjust = c(2,4,6), size=3) + ylim(0, 60)
-# pB_res_o <- ggplot(calc_resid(allData_master[var=="B"]), aes(x = .fitted, y = .resid, col=speciesID)) +
-#   geom_point() + geom_hline(yintercept = 0) +
-#   theme(plot.title = element_text(size=10)) +
-#   labs(title='B - current version:\nactual pValues\nResidual vs. Fitted Values Plot', x='Fitted Values', y='Residuals')
-# 
-# pD_o <- ggplot(allData_master[var=="D"],aes(x=obs,y=sim,col=speciesID)) +
-#   geom_point() + geom_abline() + ggtitle("D - current version\nactual pValues\n")+
-#   theme(plot.title = element_text(size=10)) +
-#   geom_text(data=r2_rmse(allData_master[var=="D"]), aes(x=-Inf,y=+Inf,label=label),
-#             hjust = 0, vjust = c(2,4,6), size=3) + ylim(0, 75)
-# pD_res_o <- ggplot(calc_resid(allData_master[var=="D"]), aes(x = .fitted, y = .resid, col=speciesID)) +
-#   geom_point() + geom_hline(yintercept = 0) +
-#   theme(plot.title = element_text(size=10)) +
-#   labs(title='D - current version:\nactual pValues\nResidual vs. Fitted Values Plot', x='Fitted Values', y='Residuals')
-# 
-# pH_o <- ggplot(allData_master[var=="H"],aes(x=obs,y=sim,col=speciesID)) +
-#   geom_point() + geom_abline() + ggtitle("H - current version\nactual pValues\n")+
-#   theme(plot.title = element_text(size=10)) +
-#   geom_text(data=r2_rmse(allData_master[var=="H"]), aes(x=-Inf,y=+Inf,label=label),
-#             hjust = 0, vjust = c(2,4,6), size=3) + ylim(0, 45)
-# pH_res_o <- ggplot(calc_resid(allData_master[var=="H"]), aes(x = .fitted, y = .resid, col=speciesID)) +
-#   geom_point() + geom_hline(yintercept = 0) +
-#   theme(plot.title = element_text(size=10)) +
-#   labs(title='H - current version:\nactual pValues\nResidual vs. Fitted Values Plot', x='Fitted Values', y='Residuals')
-# 
-# pHc_o <- ggplot(allData_master[var=="Hc"],aes(x=obs,y=sim,col=speciesID)) +
-#   geom_point() + geom_abline() + ggtitle("Hc - current version\nactual pValues\n")+
-#   theme(plot.title = element_text(size=10)) +
-#   geom_text(data=r2_rmse(allData_master[var=="Hc"]), aes(x=-Inf,y=+Inf,label=label),
-#             hjust = 0, vjust = c(2,4,6), size=3) + ylim(0, 25)
-# pHc_res_o <- ggplot(calc_resid(allData_master[var=="Hc"]), aes(x = .fitted, y = .resid, col=speciesID)) +
-#   geom_point() + geom_hline(yintercept = 0) +
-#   theme(plot.title = element_text(size=10)) +
-#   labs(title='Hc - current version:\nactual pValues\nResidual vs. Fitted Values Plot', x='Fitted Values', y='Residuals')
-# 
-# pWf1_o <- ggplot(allData_master[var=="Wf1"],aes(x=obs,y=sim,col=speciesID)) +
-#   geom_point() + geom_abline() + ggtitle("Wf1 - current version\nactual pValues\n")+
-#   theme(plot.title = element_text(size=10)) +
-#   geom_text(data=r2_rmse(allData_master[var=="Wf1"]), aes(x=-Inf,y=+Inf,label=label),
-#             hjust = 0, vjust = c(2,4), size=3) + ylim(0, 40)
-# pWf1_res_o <- ggplot(calc_resid(allData_master[var=="Wf1"]), aes(x = .fitted, y = .resid, col=speciesID)) +
-#   geom_point() + geom_hline(yintercept = 0) +
-#   theme(plot.title = element_text(size=10)) +
-#   labs(title='Wf1 - current version:\nactual pValues\nResidual vs. Fitted Values Plot', x='Fitted Values', y='Residuals')
-# 
-# pWf2_o <- ggplot(allData_master[var=="Wf2"],aes(x=obs,y=sim,col=speciesID)) +
-#   geom_point() + geom_abline() + ggtitle("Wf2 - current version\nactual pValues\n")+
-#   theme(plot.title = element_text(size=10)) +
-#   geom_text(data=r2_rmse(allData_master[var=="Wf2"]), aes(x=-Inf,y=+Inf,label=label),
-#             hjust = 0, vjust = c(2,4), size=3) + ylim(0, 25)
-# pWf2_res_o <- ggplot(calc_resid(allData_master[var=="Wf2"]), aes(x = .fitted, y = .resid, col=speciesID)) +
-#   geom_point() + geom_hline(yintercept = 0) +
-#   theme(plot.title = element_text(size=10)) +
-#   labs(title='Wf2 - current version:\nactual pValues\nResidual vs. Fitted Values Plot', x='Fitted Values', y='Residuals')
-# 
-# pAs_o <- ggplot(allData_master[var=="As"],aes(x=obs,y=sim,col=speciesID)) +
-#   geom_point() + geom_abline() + ggtitle("As - current version\nactual pValues\n")+
-#   theme(plot.title = element_text(size=10)) +
-#   geom_text(data=r2_rmse(allData_master[var=="As"]), aes(x=-Inf,y=+Inf,label=label),
-#             hjust = 0, vjust = c(2,4), size=3) + ylim(0, 0.1)
-# pAs_res_o <- ggplot(calc_resid(allData_master[var=="As"]), aes(x = .fitted, y = .resid, col=speciesID)) +
-#   geom_point() + geom_hline(yintercept = 0) +
-#   labs(title='As - current version:\nactual pValues\nResidual vs. Fitted Values Plot', x='Fitted Values', y='Residuals')
-# 
-# pGPP_o <- ggplot(allData_master[var=="GPP"],aes(x=obs,y=sim,col=siteID)) +
-#   geom_point() + geom_abline() + ggtitle("GPP - current version\nactual pValues\n")+
-#   theme(plot.title = element_text(size=10)) +
-#   geom_text(data=r2_rmse_flux(allData_master[var=="GPP"]), aes(x=-Inf,y=+Inf,label=label),
-#             hjust = 0, vjust = c(2,4), size=3)
-# pGPP_res_o <- ggplot(calc_residF(allData_master[var=="GPP"]), aes(x = .fitted, y = .resid, col=siteID)) +
-#   geom_point() + geom_hline(yintercept = 0) +
-#   theme(plot.title = element_text(size=10)) +
-#   labs(title='GPP -  - current version\nactual pValues\nResidual vs. Fitted Values Plot', x='Fitted Values', y='Residuals')
-# 
-# pET_o <- ggplot(allData_master[var=="ET"],aes(x=obs,y=sim,col=siteID)) +
-#   geom_point() + geom_abline() + ggtitle("ET - current version\nactual pValues\n")+
-#   theme(plot.title = element_text(size=10)) +
-#   geom_text(data=r2_rmse_flux(allData_master[var=="ET"]), aes(x=-Inf,y=+Inf,label=label),
-#             hjust = 0, vjust = c(2,4), size=3)
-# pET_res_o <- ggplot(calc_residF(allData_master[var=="ET"]), aes(x = .fitted, y = .resid, col=siteID)) +
-#   geom_point() + geom_hline(yintercept = 0) +
-#   theme(plot.title = element_text(size=10)) +
-#   labs(title='ET -  - current version\nactual pValues\nResidual vs. Fitted Values Plot', x='Fitted Values', y='Residuals')
-# 
-# dt_o<-allData_master[var=="GPP_yr"]
-# dt_o$year<-c(1,2,3,1,2,3,4,5,6)
-# pGPPyr_o <- ggplot(dt_o, aes(x= year)) + geom_point(aes(y=obs, col=siteID)) + 
-#   geom_line(aes(y=sim, col=siteID)) +ylim(0,1500) + ggtitle("GPP annual - current version\nactual pValues\n")+
-#   theme(plot.title = element_text(size=10))
-# pGPPyr_res_o <- ggplot(calc_residF(allData_master[var=="GPP_yr"]), aes(x = .fitted, y = .resid, col=siteID)) +
-#   geom_point() + geom_hline(yintercept = 0) +
-#   theme(plot.title = element_text(size=10)) +
-#   labs(title='GPP annual - current version:\nactual pValues\nResidual vs. Fitted Values Plot', x='Fitted Values', y='Residuals')
-# 
+### MASTER VERSION -- OBSERVED VS. PREDICTED
+pV_o <- ggplot(allData_master[var=="V"],aes(x=obs,y=sim,col=speciesID)) +
+  geom_point() + geom_abline() + ggtitle("V - current version\nactual pValues\n")+
+  theme(plot.title = element_text(size=10)) +
+  geom_text(data=r2_rmse(allData_master[var=="V"]), aes(x=-Inf,y=+Inf,label=label),
+            hjust = 0, vjust = c(2,4,6), size=3) + ylim(0, 800)
+# pV_res<-ggplot(calc_resid(allData_master[var=="V"]),aes(x=obs,y=sim,col=speciesID)) +
+#   geom_smooth(method = "lm", se = FALSE) +
+#   geom_segment(aes(xend = obs, yend = .fitted)) +
+#   geom_point()
+pV_res_o <- ggplot(calc_resid(allData_master[var=="V"]), aes(x = .fitted, y = .resid, col=speciesID)) +
+  geom_point() + geom_hline(yintercept = 0) +
+  theme(plot.title = element_text(size=10)) +
+  labs(title='V - current version:\nactual pValues\nResidual vs. Fitted Values Plot', x='Fitted Values', y='Residuals')
+
+pB_o <- ggplot(allData_master[var=="B"],aes(x=obs,y=sim,col=speciesID)) +
+  geom_point() + geom_abline() + ggtitle("B - current version\nactual pValues\n")+
+  theme(plot.title = element_text(size=10)) +
+  geom_text(data=r2_rmse(allData_master[var=="B"]), aes(x=-Inf,y=+Inf,label=label),
+            hjust = 0, vjust = c(2,4,6), size=3) + ylim(0, 60)
+pB_res_o <- ggplot(calc_resid(allData_master[var=="B"]), aes(x = .fitted, y = .resid, col=speciesID)) +
+  geom_point() + geom_hline(yintercept = 0) +
+  theme(plot.title = element_text(size=10)) +
+  labs(title='B - current version:\nactual pValues\nResidual vs. Fitted Values Plot', x='Fitted Values', y='Residuals')
+
+pD_o <- ggplot(allData_master[var=="D"],aes(x=obs,y=sim,col=speciesID)) +
+  geom_point() + geom_abline() + ggtitle("D - current version\nactual pValues\n")+
+  theme(plot.title = element_text(size=10)) +
+  geom_text(data=r2_rmse(allData_master[var=="D"]), aes(x=-Inf,y=+Inf,label=label),
+            hjust = 0, vjust = c(2,4,6), size=3) + ylim(0, 75)
+pD_res_o <- ggplot(calc_resid(allData_master[var=="D"]), aes(x = .fitted, y = .resid, col=speciesID)) +
+  geom_point() + geom_hline(yintercept = 0) +
+  theme(plot.title = element_text(size=10)) +
+  labs(title='D - current version:\nactual pValues\nResidual vs. Fitted Values Plot', x='Fitted Values', y='Residuals')
+
+pH_o <- ggplot(allData_master[var=="H"],aes(x=obs,y=sim,col=speciesID)) +
+  geom_point() + geom_abline() + ggtitle("H - current version\nactual pValues\n")+
+  theme(plot.title = element_text(size=10)) +
+  geom_text(data=r2_rmse(allData_master[var=="H"]), aes(x=-Inf,y=+Inf,label=label),
+            hjust = 0, vjust = c(2,4,6), size=3) + ylim(0, 45)
+pH_res_o <- ggplot(calc_resid(allData_master[var=="H"]), aes(x = .fitted, y = .resid, col=speciesID)) +
+  geom_point() + geom_hline(yintercept = 0) +
+  theme(plot.title = element_text(size=10)) +
+  labs(title='H - current version:\nactual pValues\nResidual vs. Fitted Values Plot', x='Fitted Values', y='Residuals')
+
+pHc_o <- ggplot(allData_master[var=="Hc"],aes(x=obs,y=sim,col=speciesID)) +
+  geom_point() + geom_abline() + ggtitle("Hc - current version\nactual pValues\n")+
+  theme(plot.title = element_text(size=10)) +
+  geom_text(data=r2_rmse(allData_master[var=="Hc"]), aes(x=-Inf,y=+Inf,label=label),
+            hjust = 0, vjust = c(2,4,6), size=3) + ylim(0, 25)
+pHc_res_o <- ggplot(calc_resid(allData_master[var=="Hc"]), aes(x = .fitted, y = .resid, col=speciesID)) +
+  geom_point() + geom_hline(yintercept = 0) +
+  theme(plot.title = element_text(size=10)) +
+  labs(title='Hc - current version:\nactual pValues\nResidual vs. Fitted Values Plot', x='Fitted Values', y='Residuals')
+
+pWf1_o <- ggplot(allData_master[var=="Wf1"],aes(x=obs,y=sim,col=speciesID)) +
+  geom_point() + geom_abline() + ggtitle("Wf1 - current version\nactual pValues\n")+
+  theme(plot.title = element_text(size=10)) +
+  geom_text(data=r2_rmse(allData_master[var=="Wf1"]), aes(x=-Inf,y=+Inf,label=label),
+            hjust = 0, vjust = c(2,4), size=3) + ylim(0, 40)
+pWf1_res_o <- ggplot(calc_resid(allData_master[var=="Wf1"]), aes(x = .fitted, y = .resid, col=speciesID)) +
+  geom_point() + geom_hline(yintercept = 0) +
+  theme(plot.title = element_text(size=10)) +
+  labs(title='Wf1 - current version:\nactual pValues\nResidual vs. Fitted Values Plot', x='Fitted Values', y='Residuals')
+
+pWf2_o <- ggplot(allData_master[var=="Wf2"],aes(x=obs,y=sim,col=speciesID)) +
+  geom_point() + geom_abline() + ggtitle("Wf2 - current version\nactual pValues\n")+
+  theme(plot.title = element_text(size=10)) +
+  geom_text(data=r2_rmse(allData_master[var=="Wf2"]), aes(x=-Inf,y=+Inf,label=label),
+            hjust = 0, vjust = c(2,4), size=3) + ylim(0, 25)
+pWf2_res_o <- ggplot(calc_resid(allData_master[var=="Wf2"]), aes(x = .fitted, y = .resid, col=speciesID)) +
+  geom_point() + geom_hline(yintercept = 0) +
+  theme(plot.title = element_text(size=10)) +
+  labs(title='Wf2 - current version:\nactual pValues\nResidual vs. Fitted Values Plot', x='Fitted Values', y='Residuals')
+
+pAs_o <- ggplot(allData_master[var=="As"],aes(x=obs,y=sim,col=speciesID)) +
+  geom_point() + geom_abline() + ggtitle("As - current version\nactual pValues\n")+
+  theme(plot.title = element_text(size=10)) +
+  geom_text(data=r2_rmse(allData_master[var=="As"]), aes(x=-Inf,y=+Inf,label=label),
+            hjust = 0, vjust = c(2,4), size=3) + ylim(0, 0.1)
+pAs_res_o <- ggplot(calc_resid(allData_master[var=="As"]), aes(x = .fitted, y = .resid, col=speciesID)) +
+  geom_point() + geom_hline(yintercept = 0) +
+  labs(title='As - current version:\nactual pValues\nResidual vs. Fitted Values Plot', x='Fitted Values', y='Residuals')
+
+pGPP_o <- ggplot(allData_master[var=="GPP"],aes(x=obs,y=sim,col=siteID)) +
+  geom_point() + geom_abline() + ggtitle("GPP - current version\nactual pValues\n")+
+  theme(plot.title = element_text(size=10)) +
+  geom_text(data=r2_rmse_flux(allData_master[var=="GPP"]), aes(x=-Inf,y=+Inf,label=label),
+            hjust = 0, vjust = c(2,4,6,8,10), size=3)
+pGPP_res_o <- ggplot(calc_residF(allData_master[var=="GPP"]), aes(x = .fitted, y = .resid, col=siteID)) +
+  geom_point() + geom_hline(yintercept = 0) +
+  theme(plot.title = element_text(size=10)) +
+  labs(title='GPP -  - current version\nactual pValues\nResidual vs. Fitted Values Plot', x='Fitted Values', y='Residuals')
+
+pET_o <- ggplot(allData_master[var=="ET"],aes(x=obs,y=sim,col=siteID)) +
+  geom_point() + geom_abline() + ggtitle("ET - current version\nactual pValues\n")+
+  theme(plot.title = element_text(size=10)) +
+  geom_text(data=r2_rmse_flux(allData_master[var=="ET"]), aes(x=-Inf,y=+Inf,label=label),
+            hjust = 0, vjust = c(2,4,6,8,10), size=3)
+pET_res_o <- ggplot(calc_residF(allData_master[var=="ET"]), aes(x = .fitted, y = .resid, col=siteID)) +
+  geom_point() + geom_hline(yintercept = 0) +
+  theme(plot.title = element_text(size=10)) +
+  labs(title='ET -  - current version\nactual pValues\nResidual vs. Fitted Values Plot', x='Fitted Values', y='Residuals')
+
+dt_o<-allData_master[var=="GPP_yr"]
+dt_o$year<-c(1:3,1:6,1:5,1:2,1:12)
+pGPPyr_o <- ggplot(dt_o, aes(x= year)) + geom_point(aes(y=obs, col=siteID)) +
+  geom_line(aes(y=sim, col=siteID)) +ylim(0,1500) + ggtitle("GPP annual - current version\nactual pValues\n")+
+  theme(plot.title = element_text(size=10))
+pGPPyr_res_o <- ggplot(calc_residF(allData_master[var=="GPP_yr"]), aes(x = .fitted, y = .resid, col=siteID)) +
+  geom_point() + geom_hline(yintercept = 0) +
+  theme(plot.title = element_text(size=10)) +
+  labs(title='GPP annual - current version:\nactual pValues\nResidual vs. Fitted Values Plot', x='Fitted Values', y='Residuals')
+
 # ### MASTER VERSION - NEW PARAMETERS -- OBSERVED VS. PREDICTED
 # pV_newP <- ggplot(allData_newPar[var=="V"],aes(x=obs,y=sim,col=speciesID)) +
 #   geom_point() + geom_abline() + ggtitle("V - current version\nsuggested pValues\n") +
@@ -689,14 +690,18 @@ calc_residF<- function(df){
 # # ggarrange(pGPPyr_res_newVP,pGPP_res_newVP,pET_res_newVP, ncol = 2, nrow = 2, legend = "right", common.legend = T)
 # 
 # 
-# # print(pV)
-# # print(pB)
-# # print(pD)
-# # print(pH)
-# # print(pHc)
-# # print(pGPP)
-# #print(pET)
-# #dev.off()
+# # print(pV_o)
+# # print(pB_o)
+# # print(pD_o)
+# # print(pH_o)
+# # print(pHc_o)
+# # print(pWf1_o)
+# # print(pWf2_o)
+# # print(pAs_o)
+# # print(pGPP_o)
+# # print(pET_o)
+# # print(pGPPyr_o)
+# # dev.off()
 # # 
 # # #pdf(file="out/outupdate_residuals.pdf")
 # # print(pV_res)

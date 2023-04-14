@@ -12,7 +12,7 @@ devtools::install_github("ForModLabUHel/Rprebasso", ref="master")
 library(Rprebasso)
 
 if(vLocal){
-  setwd("C:/Users/checcomi/Documents/github/newCal/")
+  setwd("C:/Users/srinetri/research/PREBAS_calibration/newCal/")
 }else{
   setwd("/scratch/project_2000994/calibrations/srinet/newCal/")
 }
@@ -32,7 +32,7 @@ if(newV){
   load('inputs/init_set2.rdata')
   load('inputs/init_set3.rdata')
   load('inputs/init_set4.rdata')
-  load('inputs/init_set5Flux.RData')
+  load('inputs/init_set5Flux_4sites.RData')
 }
 
 vapu_S<-read.csv(url('https://raw.githubusercontent.com/ForModLabUHel/newCal/master/inputs/VAPU_spruce.csv'))
@@ -43,8 +43,7 @@ nData_P <- length(vapu_P$plot)
 # ### Create Bayesian Setup
 if(!vLocal){
   bayesianSetup <- createBayesianSetup(likelihood = likelihood,
-                                       lower = parmin, upper = parmax, names = parnam,
-                                       parallel = "external")
+                                       lower = parmin, upper = parmax, names = parnam)
 }else{
   bayesianSetup <- createBayesianSetup(likelihood = likelihood,
                                        lower = parmin, upper = parmax,

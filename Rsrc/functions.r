@@ -85,7 +85,7 @@ subInit <- function(initPrebas,setX){
 likelihood1 <- function(pValues,cal=T){
   ###init_set1
   init_set1$pPRELES <- pPREL
-  init_set1$pPRELES[parSel_PREL] <- pValues[1:nparPREL]
+  init_set1$pPRELES[parSel_PREL[1:13]] <- pValues[1:(nparPREL-4)]
   init_set1$pCROBAS <- pCROB
   init_set1$pCROBAS[parSel_CROB,1] <- pValues[(nparPREL+1):(nparPREL+nparCROB)]
   init_set1$pCROBAS[parSel_CROB,2] <- pValues[(nparPREL+nparCROB + 1):(nparPREL+(nparCROB*2))]
@@ -138,7 +138,7 @@ likelihood1 <- function(pValues,cal=T){
 likelihood2 <- function(pValues,cal=T){
   ###init_set2
   init_set2$pPRELES <- pPREL
-  init_set2$pPRELES[parSel_PREL] <- pValues[1:nparPREL]
+  init_set2$pPRELES[parSel_PREL[1:13]] <- pValues[1:(nparPREL-4)]
   init_set2$pCROBAS <- pCROB
   init_set2$pCROBAS[parSel_CROB,1] <- pValues[(nparPREL+1):(nparPREL+nparCROB)]
   init_set2$pCROBAS[parSel_CROB,2] <- pValues[(nparPREL+nparCROB + 1):(nparPREL+(nparCROB*2))]
@@ -192,7 +192,7 @@ likelihood2 <- function(pValues,cal=T){
 likelihood3 <- function(pValues,cal=T){
   ###init_set3
   init_set3$pPRELES <- pPREL
-  init_set3$pPRELES[parSel_PREL] <- pValues[1:nparPREL]
+  init_set3$pPRELES[parSel_PREL[1:13]] <- pValues[1:(nparPREL-4)]
   init_set3$pCROBAS <- pCROB
   init_set3$pCROBAS[parSel_CROB,1] <- pValues[(nparPREL+1):(nparPREL+nparCROB)]
   init_set3$pCROBAS[parSel_CROB,2] <- pValues[(nparPREL+nparCROB + 1):(nparPREL+(nparCROB*2))]
@@ -246,7 +246,7 @@ likelihood3 <- function(pValues,cal=T){
 likelihood4 <- function(pValues,cal=T){
   ###init_set4
   init_set4$pPRELES <- pPREL
-  init_set4$pPRELES[parSel_PREL] <- pValues[1:nparPREL]
+  init_set4$pPRELES[parSel_PREL[1:13]] <- pValues[1:(nparPREL-4)]
   init_set4$pCROBAS <- pCROB
   init_set4$pCROBAS[parSel_CROB,1] <- pValues[(nparPREL+1):(nparPREL+nparCROB)]
   init_set4$pCROBAS[parSel_CROB,2] <- pValues[(nparPREL+nparCROB + 1):(nparPREL+(nparCROB*2))]
@@ -346,13 +346,12 @@ likelihood4 <- function(pValues,cal=T){
 ##Sivia likelihood
 Sivia_log<-function(diff,sd){
   # sd[which(sd<=0)]<-11e-6e-6
-  diff[which(abs(diff)<=1e-6)]<-1e-6
-  # diff[which(abs(diff)<=1e-6)]<-1e-4
+  # diff[which(abs(diff)<=1e-6)]<-1e-6
+  diff[which(abs(diff)<=1e-6)]<-1e-4
   R2<-(diff/sd)^2
   prob<-1/(sd*(pi*2)^0.5)*(1-exp(-R2/2))/R2
   log(prob)
 }
-
 
 likelihood <- function(pValues){
   logLike <- mclapply(sets, function(jx) {
@@ -367,7 +366,7 @@ likelihood <- function(pValues){
 likelihood5Flux <- function(pValues,cal=T){
   ###init_set5Flux
   init_set5Flux$pPRELES <- pPREL
-  init_set5Flux$pPRELES[parSel_PREL] <- pValues[1:nparPREL]
+  init_set5Flux$pPRELES[parSel_PREL[1:13]] <- pValues[1:(nparPREL-4)]
   init_set5Flux$pCROBAS <- pCROB
   init_set5Flux$pCROBAS[parSel_CROB,1] <- pValues[(nparPREL+1):(nparPREL+nparCROB)]
   init_set5Flux$pCROBAS[parSel_CROB,2] <- pValues[(nparPREL+nparCROB + 1):(nparPREL+(nparCROB*2))]
@@ -397,8 +396,9 @@ likelihood5Flux <- function(pValues,cal=T){
     
     ### CROBAS
     output<-PREBASout$multiOut[i,,,,]
+    GPP_yr<-output[,10,1,1]+output[,10,2,1]+output[,10,3,1]+output[,10,4,1]
+    out_GPPyr<-c(out_GPPyr,GPP_yr)
     
-    out_GPPyr<-c(out_GPPyr,output[,10,1,1])
     out_H<-c(out_H,output[dim.H])
     out_D<-c(out_D,output[dim.D])
     out_B<-c(out_B,output[dim.B])
