@@ -375,6 +375,7 @@ likelihood5Flux <- function(pValues,cal=T){
   PREBASout <- multiPrebas(init_set5Flux)
   
   out_GPP<-c()
+  out_GPPyr<-c()
   out_ET<-c()
   out_H<-c()
   out_D<-c()

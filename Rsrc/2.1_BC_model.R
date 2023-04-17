@@ -37,7 +37,7 @@ if(newV){
   load('inputs/init_set2.rdata')
   load('inputs/init_set3.rdata')
   load('inputs/init_set4.rdata')
-  load('inputs/init_set5Flux_4sites.RData')
+  load('inputs/init_set5Flux_4sites.rdata')
 }
 
 vapu_S<-read.csv(url('https://raw.githubusercontent.com/ForModLabUHel/newCal/master/inputs/VAPU_spruce.csv'))
