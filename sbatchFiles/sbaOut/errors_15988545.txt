@@ -1,0 +1,6 @@
+------------------------------
+r-env 4.2.1
+https://docs.csc.fi/apps/r-env
+------------------------------
+Skipping install of 'Rprebasso' from a github remote, the SHA1 (7a1ff11f) has not changed since last install.
+  Use `force = TRUE` to force installation

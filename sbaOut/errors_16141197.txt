@@ -1,0 +1,14 @@
+------------------------------
+r-env 4.2.1
+https://docs.csc.fi/apps/r-env
+------------------------------
+Skipping install of 'Rprebasso' from a github remote, the SHA1 (ae2f776c) has not changed since last install.
+  Use `force = TRUE` to force installation
+Error in source("Rsrc/functions.r") : 
+  Rsrc/functions.r:1:1: unexpected input
+1: <<
+    ^
+Calls: source -> withVisible -> eval -> eval -> source
+Execution halted
+srun: error: r18c44: task 0: Exited with exit code 1
+srun: launch/slurm: _step_signal: Terminating StepId=16141197.0

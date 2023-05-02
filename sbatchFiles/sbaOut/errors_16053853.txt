@@ -1,0 +1,9 @@
+------------------------------
+r-env 4.2.1
+https://docs.csc.fi/apps/r-env
+------------------------------
+Skipping install of 'Rprebasso' from a github remote, the SHA1 (ae2f776c) has not changed since last install.
+  Use `force = TRUE` to force installation
+slurmstepd: error: *** JOB 16053853 ON r13c35 CANCELLED AT 2023-04-08T05:48:00 DUE TO TIME LIMIT ***
+srun: Job step aborted: Waiting up to 62 seconds for job step to finish.
+slurmstepd: error: *** STEP 16053853.0 ON r13c35 CANCELLED AT 2023-04-08T05:48:00 DUE TO TIME LIMIT ***

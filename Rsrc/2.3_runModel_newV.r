@@ -1,5 +1,5 @@
 #1# specify packages folder if you are on puhti
-vLocal <- T
+vLocal <- F
 newV=F
 if(!vLocal){
   .libPaths(c("/scratch/project_2000994/project_rpackages", .libPaths()))
@@ -67,7 +67,13 @@ parmod<-par$parmod
 # init_set4$ECMmod=0; init_set4$pCN_alfar=NULL
 # init_set5Flux$ECMmod=0; init_set5Flux$pCN_alfar=NULL
 
+nCores=1
 startX <- Sys.time()
+likelihood(parmod)
+endX <- Sys.time()
+timeX = endX- startX
+print(timeX)
+
 modOut1 <- likelihood1(parmod,cal=F)
 modOut2 <- likelihood2(parmod,cal=F)
 modOut3 <- likelihood3(parmod,cal=F)

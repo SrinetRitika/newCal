@@ -1,0 +1,29 @@
+
+* checking for file ‘/scratch/project_2000994/RtmpDYUTTH/remotes1690f3348ff10/ForModLabUHel-Rprebasso-779ef27/DESCRIPTION’ ... OK
+* preparing ‘Rprebasso’:
+* checking DESCRIPTION meta-information ... OK
+* cleaning src
+* checking for LF line-endings in source and make files and shell scripts
+* checking for empty or unneeded directories
+Omitted ‘LazyData’ from DESCRIPTION
+  NB: this package now depends on R (>= 3.5.0)
+  WARNING: Added dependency on R >= 3.5.0 because serialized objects in
+  serialize/load version 3 cannot be read in older versions of R.
+  File(s) containing such objects:
+    ‘Rprebasso/inst/transect/weatherTran.rda’
+* building ‘Rprebasso_0.3.0.tar.gz’
+Warning: invalid uid value replaced by that for user 'nobody'
+Warning: invalid gid value replaced by that for user 'nobody'
+
+gfortran -fno-optimize-sibling-calls  -fpic  -g -O2  -c  A_presel_f.f90 -o A_presel_f.o
+gfortran -fno-optimize-sibling-calls  -fpic  -g -O2  -c  A_routines.f90 -o A_routines.o
+gfortran -fno-optimize-sibling-calls  -fpic  -g -O2  -c  B_prebas.f90 -o B_prebas.o
+gfortran -fno-optimize-sibling-calls  -fpic  -g -O2  -c  C_multiPrebas.f90 -o C_multiPrebas.o
+gfortran -fno-optimize-sibling-calls  -fpic  -g -O2  -c  C_regionPrebas.f90 -o C_regionPrebas.o
+gcc -I"/usr/lib64/R/include" -DNDEBUG   -I/usr/local/include   -fpic  -g -O2  -c call_preles.c -o call_preles.o
+gcc -I"/usr/lib64/R/include" -DNDEBUG   -I/usr/local/include   -fpic  -g -O2  -c gpp.c -o gpp.o
+gcc -I"/usr/lib64/R/include" -DNDEBUG   -I/usr/local/include   -fpic  -g -O2  -c initruns.c -o initruns.o
+gcc -I"/usr/lib64/R/include" -DNDEBUG   -I/usr/local/include   -fpic  -g -O2  -c preles.c -o preles.o
+gcc -I"/usr/lib64/R/include" -DNDEBUG   -I/usr/local/include   -fpic  -g -O2  -c water.c -o water.o
+gcc -shared -L/usr/lib64/R/lib -L/usr/local/lib64 -o Rprebasso.so A_presel_f.o A_routines.o B_prebas.o C_multiPrebas.o C_regionPrebas.o call_preles.o gpp.o initruns.o preles.o water.o -lgfortran -lm -lquadmath -L/usr/lib64/R/lib -lR
+Time difference of 23.53796 hours

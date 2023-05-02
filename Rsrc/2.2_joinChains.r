@@ -6,7 +6,7 @@ library(coda)
 setwd("/scratch/project_2000994/calibrations/srinet/newCal/")
 
 load("chains/calOut_0.1.rdata")
-calSets <- 0:3
+calSets <- 0:8
 ###settings
 npar <- calOut$setup$numPars
 indRun <-20 #number of independent calibration runs
@@ -74,6 +74,9 @@ pChainComb[[4]] <- combine.mcmc(xx)
 
 gelman.diag(pChainComb,multivariate = T)
 
+pdf("outCal/tracePlots_combChains.pdf")
+tracePlot(pChainComb)
+dev.off()
 
 ###filter the chains
 ###find out the chains that got stuck in local maxima looking at the loglikelihood
@@ -96,7 +99,6 @@ pChainCombFilt[[2]] <- combine.mcmc(xx)
 
 gelman.diag(pChainCombFilt,multivariate = T)
 
-
+pdf("outCal/tracePlots_selectChains.pdf")
 tracePlot(pChainCombFilt)
-
-
+dev.off()

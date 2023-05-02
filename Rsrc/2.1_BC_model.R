@@ -74,7 +74,7 @@ if(calSet == 0){
   load(lastCal)
   startValue <- calOut$X
   
-  settings = list(iterations = iters, startValue = startValue,
+  settings = list(iterations = iters, f=fX, startValue = startValue,
                   burnin=0,message=FALSE)
   
   calOut <- runMCMC(bayesianSetup = bayesianSetup,

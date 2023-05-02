@@ -1,7 +1,7 @@
 ####settings
 if(!exists("vLocal")) vLocal <- FALSE
 
-if(!exists("fX")) fX <- 2.38  ###parameter of DEzs algorithm
+if(!exists("fX")) fX <- 2.38*2  ###parameter of DEzs algorithm
 if(!exists("calAlg")) calAlg <- "DEzs"  ###MC algorithm
 if(!exists("nworkers")) nworkers <- 20  ###number of cores
 
