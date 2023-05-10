@@ -6,16 +6,15 @@ library(coda)
 setwd("/scratch/project_2000994/calibrations/srinet/newCal/")
 
 load("chains/calOut_0.1.rdata")
-calSets <- 0:8
+
+calSets <- 0:23
 ###settings
 npar <- calOut$setup$numPars
 indRun <-20 #number of independent calibration runs
 thin=100
-# lChain <- dim(calOut$chain[[1]])[1]
-# seqX <- seq(thin,lChain,by=thin)
-
 pChain <- mcmc.list()
 pMAP <- NULL
+
 for(i in 1:indRun){
   for(ij in calSets){
     load(paste0("chains/calOut_",ij,".",i,".rdata"))
@@ -49,7 +48,7 @@ for(i in 1:indRun){
 save(pChain, file="outCal/allChain.rdata")
 save(pMAP,file="outCal/pMAP.rdata")
 
-pdf("outCal/tracePlots.pdf")
+pdf("outCal/tracePlots_0to23.pdf")
 tracePlot(pChain)
 dev.off()
 
@@ -63,34 +62,32 @@ for(i in 1:indRun) pChain2[i] <- pChain[i][,1:npar]
 
 # combined chains
 pChainComb <- list()
-xx <- mcmc.list(pChain2[1:5])
+xx <- mcmc.list(pChain2[1:4])
 pChainComb[[1]] <- combine.mcmc(xx)
-xx <- mcmc.list(pChain2[6:10])
+xx <- mcmc.list(pChain2[5:8])
 pChainComb[[2]] <- combine.mcmc(xx)
-xx <- mcmc.list(pChain2[11:15])
+xx <- mcmc.list(pChain2[9:12])
 pChainComb[[3]] <- combine.mcmc(xx)
-xx <- mcmc.list(pChain2[16:20])
+xx <- mcmc.list(pChain2[13:16])
 pChainComb[[4]] <- combine.mcmc(xx)
+xx <- mcmc.list(pChain2[17:20])
+pChainComb[[5]] <- combine.mcmc(xx)
+
 
 gelman.diag(pChainComb,multivariate = T)
-
-pdf("outCal/tracePlots_combChains.pdf")
-tracePlot(pChainComb)
-dev.off()
 
 ###filter the chains
 ###find out the chains that got stuck in local maxima looking at the loglikelihood
 MAPx <- rep(0,indRun)
-for(i in 1:indRun) MAPx[i] <- max(pChain[[i]][which(is.na(pChain[[i]][,(npar+1)])==F),(npar+1)])
+for(i in 1:indRun) MAPx[i] <- max(pChain[[i]][,(npar+1)])
 
 indX <- sort.int(MAPx, decreasing = T, index.return = TRUE)
-filtChain <- indX$ix[-(1:6)]
+filtChain <- indX$ix[(1:18)]
 
 # combined chains
 pChainCombFilt <- list()
 set1 <- seq(1,length(filtChain),by=2)
 set2 <- seq(2,length(filtChain),by=2)
-
 
 xx <- mcmc.list(pChain2[filtChain[set1]])
 pChainCombFilt[[1]] <- combine.mcmc(xx)
@@ -98,7 +95,3 @@ xx <- mcmc.list(pChain2[filtChain[set2]])
 pChainCombFilt[[2]] <- combine.mcmc(xx)
 
 gelman.diag(pChainCombFilt,multivariate = T)
-
-pdf("outCal/tracePlots_selectChains.pdf")
-tracePlot(pChainCombFilt)
-dev.off()

@@ -430,7 +430,8 @@ likelihood5Flux <- function(pValues,cal=T){
   if(cal==T){
     return(loglikelihoodFlux)  
   }else{
-    return(list(simGPP_day=out_GPP[c(GPPdata_s5$outData[,2])], 
+    return(list(simGPP_day=out_GPP[c(GPPdata_s5$outData[,2])],
+                simGPPyr=out_GPPyr,
                 simET=out_ET[c(ETdata_s5$outData[,2])],
                 simH=out_H, 
                 simD=out_D, 

@@ -86,7 +86,7 @@ print(timeX)
 #gpp_annual<-read.csv("inputs/gpp_annual.csv")
 
 speciesNam <- c("pine","spruce","birch")
-fsiteNam<-c("Värriö","Lettosuo_bfThin", "Lettosuo_afThin","Sodankylä", "Hyytiälä")
+fsiteNam<-c("Varrio","Lettosuo", "Lettosuo","Sodankyla", "Hyytiala")
 
 
 allData <- data.table(obs = modOut1$obsV,sim=modOut1$simV,cal_set='set 1',var="V", speciesID=speciesNam[extractSpecies(Vdata_s1,modOut1)], siteID = extractSite(Vdata_s1,modOut1))
