@@ -70,12 +70,12 @@ if(calSet == 0){
   calOut <- runMCMC(bayesianSetup = bayesianSetup, 
                     sampler = calAlg, settings = settings)
 }else{
-  ####continue calibration
+  ### continue calibration
   load(lastCal)
   startValue <- calOut$X
   
   settings = list(iterations = iters, f=fX, startValue = startValue,
-                  burnin=0,message=FALSE)
+                  burnin=0, message=FALSE)
   
   calOut <- runMCMC(bayesianSetup = bayesianSetup,
                     sampler = calAlg, settings = settings)

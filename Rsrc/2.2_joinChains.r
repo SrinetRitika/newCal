@@ -5,9 +5,9 @@ library(coda)
 
 setwd("/scratch/project_2000994/calibrations/srinet/newCal/")
 
-load("chains/calOut_0.1.rdata")
+load("chains/calOut_24.1.rdata")
 
-calSets <- 0:23
+calSets <- 0:24
 ###settings
 npar <- calOut$setup$numPars
 indRun <-20 #number of independent calibration runs
@@ -48,7 +48,7 @@ for(i in 1:indRun){
 save(pChain, file="outCal/allChain.rdata")
 save(pMAP,file="outCal/pMAP.rdata")
 
-pdf("outCal/tracePlots_0to23.pdf")
+pdf("outCal/tracePlots_0to29.pdf")
 tracePlot(pChain)
 dev.off()
 
@@ -82,7 +82,7 @@ MAPx <- rep(0,indRun)
 for(i in 1:indRun) MAPx[i] <- max(pChain[[i]][,(npar+1)])
 
 indX <- sort.int(MAPx, decreasing = T, index.return = TRUE)
-filtChain <- indX$ix[(1:18)]
+filtChain <- indX$ix[(1:8)]
 
 # combined chains
 pChainCombFilt <- list()

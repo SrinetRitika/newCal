@@ -5,12 +5,18 @@ library(coda)
 
 setwd("/scratch/project_2000994/calibrations/srinet/newCal/")
 
-load("chains/calOut_23.1.rdata")
+load("chains/calOut_29.1.rdata")
+# parmod=MAP(calOut)$parametersMAP
+# pdf("outCal/marginalPlots_25_5.pdf")
+# tracePlot(calOut)
+# marginalPlot(calOut,prior=T)
+# gelmanDiagnostics(calOut)
+# dev.off()
 
-calSet <- 23
+calSet <- 29
 ###settings
 npar <- calOut$setup$numPars
-indRun <-20 #number of independent calibration runs
+indRun <-1 #number of independent calibration runs
 arr_lp <- array(NA, dim=c(indRun,4,3))
 dimnames(arr_lp) <- list(NULL, c("max","min","range","acc. rate"))
 pChain <- mcmc.list()
@@ -35,6 +41,6 @@ mcmcList <- mcmc.list(mcmc(chain1),mcmc(chain2),mcmc(chain3))
   pChain[[i]] <- combine.mcmc(mcmc.objects=mcmcList)
 }
 
-pdf("outCal/tracePlots_23.pdf")
+pdf("outCal/tracePlots_29.pdf")
 tracePlot(pChain)
 dev.off()
